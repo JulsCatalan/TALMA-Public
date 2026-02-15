@@ -10,7 +10,8 @@ import type { PublicChannelConfig, ComplaintCategories } from '../types/channel.
 export default function PublicComplaintForm() {
   const { slug } = useParams<{ slug: string }>();
   const [loading, setLoading] = useState(true);
-  const [submitting] = useState(false);
+  // ✅ FIX: Agregar setter para submitting
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [channelConfig, setChannelConfig] = useState<PublicChannelConfig | null>(null);
   const [error, setError] = useState('');
@@ -89,7 +90,6 @@ export default function PublicComplaintForm() {
     }
   };
 
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     
@@ -105,7 +105,7 @@ export default function PublicComplaintForm() {
     setFormData({
       ...formData,
       category: e.target.value,
-      complaint_type: '' // Reset complaint_type cuando cambia la categoría
+      complaint_type: ''
     });
   };
 
@@ -147,51 +147,53 @@ export default function PublicComplaintForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  // Validaciones mínimas
-  if (!formData.category || !formData.complaint_type || !formData.title.trim()) {
-    toast.error('Completa los campos requeridos');
-    return;
-  }
-
-  if (!formData.is_anonymous) {
-    if (!formData.complainant_name?.trim()) {
-      toast.error('El nombre es requerido si la denuncia no es anónima');
+    if (!formData.category || !formData.complaint_type || !formData.title.trim()) {
+      toast.error('Completa los campos requeridos');
       return;
     }
 
-    if (!formData.complainant_email?.trim()) {
-      toast.error('El email es requerido si la denuncia no es anónima');
+    if (!formData.full_description.trim()) {
+      toast.error('La descripción completa es requerida');
       return;
     }
-  }
 
-  try {
-    setLoading(true);
+    if (!formData.is_anonymous) {
+      if (!formData.complainant_name?.trim()) {
+        toast.error('El nombre es requerido si la denuncia no es anónima');
+        return;
+      }
 
-   const response = await complaintApi.submitPublic(slug!, formData, files);
+      if (!formData.complainant_email?.trim()) {
+        toast.error('El email es requerido si la denuncia no es anónima');
+        return;
+      }
+    }
 
-if (!response.data) {
-  throw new Error('Respuesta inválida del servidor');
-}
+    try {
+      // ✅ FIX: Usar setSubmitting en vez de setLoading para no ocultar el formulario
+      setSubmitting(true);
 
-setFolio(response.data.folio);
-setTrackingCode(response.data.tracking_code ?? '');
-setSubmitted(true);
+      const response = await complaintApi.submitPublic(slug!, formData, files);
 
+      if (!response.data) {
+        throw new Error('Respuesta inválida del servidor');
+      }
 
-    toast.success('Denuncia enviada correctamente');
+      setFolio(response.data.folio);
+      setTrackingCode(response.data.tracking_code ?? '');
+      setSubmitted(true);
 
-  } catch (error: any) {
-    toast.error(error.message || 'Error al enviar la denuncia');
-  } finally {
-    setLoading(false);
-  }
-};
+      toast.success('Denuncia enviada correctamente');
 
+    } catch (error: any) {
+      toast.error(error.message || 'Error al enviar la denuncia');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
-  // Obtener las categorías activas
   const getActiveCategories = (): Array<{key: string, label: string}> => {
     if (!channelConfig?.complaint_categories) return [];
     
@@ -200,7 +202,6 @@ setSubmitted(true);
       .map(([key, category]) => ({ key, label: category.label }));
   };
 
-  // Obtener los tipos de denuncia de la categoría seleccionada
   const getComplaintTypesForCategory = () => {
     if (!channelConfig?.complaint_categories || !formData.category) return [];
     
@@ -286,7 +287,7 @@ setSubmitted(true);
                 {trackingCode}
               </p>
               <p className="text-xs text-yellow-600 mt-2">
-                ⚠️ Guarda este código para dar seguimiento a tu denuncia de forma anónima
+                Guarda este código para dar seguimiento a tu denuncia de forma anónima
               </p>
             </div>
           )}
@@ -296,19 +297,19 @@ setSubmitted(true);
   }
 
   const inputClassName = `w-full px-4 py-3 border border-gray-200 outline-none transition-all ${
-    isDisabled 
+    isDisabled || submitting
       ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
       : 'bg-white text-black hover:border-gray-300 focus:border-gray-400'
   }`;
 
   const selectClassName = `w-full px-4 py-3 border border-gray-200 outline-none transition-all ${
-    isDisabled 
+    isDisabled || submitting
       ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
       : 'bg-white text-black hover:border-gray-300 focus:border-gray-400'
   }`;
 
   const textareaClassName = `w-full px-4 py-3 border border-gray-200 outline-none resize-none transition-all ${
-    isDisabled 
+    isDisabled || submitting
       ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
       : 'bg-white text-black hover:border-gray-300 focus:border-gray-400'
   }`;
@@ -376,7 +377,7 @@ setSubmitted(true);
             
             {channelConfig.allow_anonymous_complaints && (
               <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded">
-                <label className={`flex items-start gap-3 ${isDisabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}>
+                <label className={`flex items-start gap-3 ${isDisabled || submitting ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}>
                   <input
                     type="checkbox"
                     name="is_anonymous"
@@ -384,7 +385,7 @@ setSubmitted(true);
                     onChange={handleChange}
                     className="w-5 h-5 text-brand-red border-gray-300 focus:ring-brand-red mt-0.5"
                     style={{ accentColor: channelConfig.primary_color }}
-                    disabled={isDisabled}
+                    disabled={isDisabled || submitting}
                   />
                   <div>
                     <p className="font-semibold text-black">Denunciar de forma anónima</p>
@@ -408,7 +409,7 @@ setSubmitted(true);
                     onChange={handleChange}
                     required
                     className={selectClassName}
-                    disabled={isDisabled}
+                    disabled={isDisabled || submitting}
                   >
                     <option value="">Selecciona...</option>
                     {Object.entries(complainantTypeLabels).map(([value, label]) => (
@@ -429,7 +430,7 @@ setSubmitted(true);
                       onChange={handleChange}
                       required={!formData.is_anonymous}
                       className={inputClassName}
-                      disabled={isDisabled}
+                      disabled={isDisabled || submitting}
                     />
                   </div>
                   <div>
@@ -442,7 +443,7 @@ setSubmitted(true);
                       value={formData.complainant_phone}
                       onChange={handleChange}
                       className={inputClassName}
-                      disabled={isDisabled}
+                      disabled={isDisabled || submitting}
                     />
                   </div>
                 </div>
@@ -458,7 +459,7 @@ setSubmitted(true);
                     onChange={handleChange}
                     required={!formData.is_anonymous}
                     className={inputClassName}
-                    disabled={isDisabled}
+                    disabled={isDisabled || submitting}
                   />
                 </div>
 
@@ -473,7 +474,7 @@ setSubmitted(true);
                     onChange={handleChange}
                     placeholder="Ej: Empleado del departamento de..."
                     className={inputClassName}
-                    disabled={isDisabled}
+                    disabled={isDisabled || submitting}
                   />
                 </div>
               </div>
@@ -485,7 +486,6 @@ setSubmitted(true);
             <h2 className="text-xl font-bold text-black mb-4">Detalles de la Denuncia</h2>
             
             <div className="space-y-4">
-              {/* Categoría de denuncia */}
               <div>
                 <label className="block text-sm font-medium text-black mb-2">
                   Categoría de denuncia *
@@ -496,7 +496,7 @@ setSubmitted(true);
                   onChange={handleCategoryChange}
                   required
                   className={selectClassName}
-                  disabled={isDisabled}
+                  disabled={isDisabled || submitting}
                 >
                   <option value="">Selecciona una categoría...</option>
                   {activeCategories.map(category => (
@@ -507,7 +507,6 @@ setSubmitted(true);
                 </select>
               </div>
 
-              {/* Tipo específico de denuncia */}
               {formData.category && (
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">
@@ -519,7 +518,7 @@ setSubmitted(true);
                     onChange={handleChange}
                     required
                     className={selectClassName}
-                    disabled={isDisabled}
+                    disabled={isDisabled || submitting}
                   >
                     <option value="">Selecciona un tipo...</option>
                     {complaintTypes.map(type => (
@@ -543,7 +542,7 @@ setSubmitted(true);
                   required
                   placeholder="Breve resumen de la situación"
                   className={inputClassName}
-                  disabled={isDisabled}
+                  disabled={isDisabled || submitting}
                 />
               </div>
 
@@ -559,7 +558,7 @@ setSubmitted(true);
                   rows={6}
                   placeholder="Describe con detalle lo sucedido..."
                   className={textareaClassName}
-                  disabled={isDisabled}
+                  disabled={isDisabled || submitting}
                 />
               </div>
 
@@ -574,7 +573,7 @@ setSubmitted(true);
                     value={formData.incident_date}
                     onChange={handleChange}
                     className={inputClassName}
-                    disabled={isDisabled}
+                    disabled={isDisabled || submitting}
                   />
                 </div>
                 <div>
@@ -588,7 +587,7 @@ setSubmitted(true);
                     onChange={handleChange}
                     placeholder="Ej: Oficina, Sucursal..."
                     className={inputClassName}
-                    disabled={isDisabled}
+                    disabled={isDisabled || submitting}
                   />
                 </div>
               </div>
@@ -604,7 +603,7 @@ setSubmitted(true);
                   onChange={handleChange}
                   placeholder="Ej: Recursos Humanos, Ventas..."
                   className={inputClassName}
-                  disabled={isDisabled}
+                  disabled={isDisabled || submitting}
                 />
               </div>
 
@@ -619,7 +618,7 @@ setSubmitted(true);
                   rows={3}
                   placeholder="Nombres o descripciones de las personas involucradas..."
                   className={textareaClassName}
-                  disabled={isDisabled}
+                  disabled={isDisabled || submitting}
                 />
               </div>
 
@@ -634,7 +633,7 @@ setSubmitted(true);
                   rows={3}
                   placeholder="Personas que presenciaron los hechos..."
                   className={textareaClassName}
-                  disabled={isDisabled}
+                  disabled={isDisabled || submitting}
                 />
               </div>
 
@@ -649,7 +648,7 @@ setSubmitted(true);
                   rows={3}
                   placeholder="Describe cualquier evidencia que respalde tu denuncia..."
                   className={textareaClassName}
-                  disabled={isDisabled}
+                  disabled={isDisabled || submitting}
                 />
               </div>
             </div>
@@ -673,7 +672,7 @@ setSubmitted(true);
                         onChange={(e) => handleCustomFieldChange(field.id, e.target.value)}
                         placeholder={field.label}
                         className={inputClassName}
-                        disabled={isDisabled}
+                        disabled={isDisabled || submitting}
                       />
                     ) : (
                       <textarea
@@ -682,7 +681,7 @@ setSubmitted(true);
                         placeholder={field.label}
                         rows={4}
                         className={textareaClassName}
-                        disabled={isDisabled}
+                        disabled={isDisabled || submitting}
                       />
                     )}
                   </div>
@@ -712,7 +711,7 @@ setSubmitted(true);
                           type="button"
                           onClick={() => handleRemoveFile(index)}
                           className="text-red-600 hover:text-red-800 transition-colors"
-                          disabled={isDisabled}
+                          disabled={isDisabled || submitting}
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -725,13 +724,13 @@ setSubmitted(true);
                   <div>
                     <label 
                       className={`block px-4 py-8 border-2 border-dashed text-center transition-colors ${
-                        isDisabled 
+                        isDisabled || submitting
                           ? 'border-gray-200 bg-gray-50 cursor-not-allowed' 
                           : 'border-gray-300 hover:border-gray-400 cursor-pointer'
                       }`}
                     >
-                      <Upload className={`w-8 h-8 mx-auto mb-2 ${isDisabled ? 'text-gray-300' : 'text-gray-400'}`} />
-                      <span className={`text-sm block ${isDisabled ? 'text-gray-400' : 'text-gray-600'}`}>
+                      <Upload className={`w-8 h-8 mx-auto mb-2 ${isDisabled || submitting ? 'text-gray-300' : 'text-gray-400'}`} />
+                      <span className={`text-sm block ${isDisabled || submitting ? 'text-gray-400' : 'text-gray-600'}`}>
                         Click para seleccionar archivos
                       </span>
                       <span className="text-xs text-gray-500 block mt-1">
@@ -743,7 +742,7 @@ setSubmitted(true);
                         onChange={handleFileChange}
                         className="hidden"
                         accept={channelConfig.allowed_file_types.join(',')}
-                        disabled={isDisabled}
+                        disabled={isDisabled || submitting}
                       />
                     </label>
                     <p className="text-xs text-gray-500 mt-2 text-center">

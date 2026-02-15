@@ -56,7 +56,7 @@ export default function HeroSection() {
         {/* Hero Visual */}
         <div className="mt-20 max-w-5xl mx-auto">
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-brand-red/10 to-brand-red/5 transform -rotate-1"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-brand-red/10 to-brand-red/5 transform -rotate-1"></div>
             <div className="relative bg-white border-2 border-gray-100 shadow-2xl p-8">
               <p className="text-center text-sm text-gray-500 mb-6 font-medium">
                 Dashboard actualizado en tiempo real, con seguimiento continuo y control trazable
