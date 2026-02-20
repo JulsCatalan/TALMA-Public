@@ -32,8 +32,8 @@ export default function PublicComplaintForm() {
   const [submitted, setSubmitted] = useState(false);
   const [channelConfig, setChannelConfig] =
     useState<PublicChannelConfig | null>(null);
-  const [, setError] = useState('');
-  const [, setTrackingCode] = useState('');
+  const [error, setError] = useState('');
+  const [trackingCode, setTrackingCode] = useState('');
   const [folio, setFolio] = useState('');
 
   const [formData, setFormData] = useState({
@@ -275,14 +275,58 @@ export default function PublicComplaintForm() {
 
   if (!channelConfig) return null;
 
-  if (submitted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <CheckCircle2 className="w-10 h-10 text-green-600" />
-        <p>Folio: {folio}</p>
+if (submitted) {
+  return (
+    <div
+      className="min-h-screen flex items-center justify-center px-6"
+      style={{ backgroundColor: channelConfig.secondary_color }}
+    >
+      <div className="max-w-2xl w-full bg-white border border-gray-200 p-8 text-center">
+        <div
+          className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+          style={{ backgroundColor: `${channelConfig.primary_color}20` }}
+        >
+          <CheckCircle2
+            className="w-8 h-8"
+            style={{ color: channelConfig.primary_color }}
+          />
+        </div>
+
+        <h2 className="text-2xl font-bold text-black mb-4">
+          ¡Denuncia Recibida!
+        </h2>
+
+        {/* ✅ confirmation_message via narrowing */}
+        <div className="text-gray-600 mb-6 whitespace-pre-line">
+          {isActiveChannel(channelConfig) && channelConfig.confirmation_message
+            ? channelConfig.confirmation_message
+            : 'Gracias por tu denuncia. Hemos recibido tu información y será revisada por nuestro equipo legal. Te contactaremos pronto.'}
+        </div>
+
+        {/* Folio — siempre visible */}
+        <div className="bg-gray-50 border border-gray-200 p-4 mb-4">
+          <p className="font-semibold text-gray-800 mb-2">Folio de la Denuncia:</p>
+          <p className="text-2xl font-bold text-black font-mono">{folio}</p>
+        </div>
+
+        {/* ✅ Tracking code para TODOS — anónimos y no anónimos */}
+        {trackingCode && (
+          <div className="bg-yellow-50 border border-yellow-200 p-4 text-sm text-left">
+            <p className="font-semibold text-yellow-800 mb-2">
+              Código de Seguimiento:
+            </p>
+            <p className="text-xl text-yellow-700 font-mono font-bold">
+              {trackingCode}
+            </p>
+            <p className="text-xs text-yellow-600 mt-2">
+              Guarda este código para dar seguimiento al estado de tu denuncia
+            </p>
+          </div>
+        )}
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   const activeCategories = getActiveCategories();
   const complaintTypes = getComplaintTypesForCategory();
@@ -680,6 +724,16 @@ return (
                     </p>
                   </div>
                 )}
+              </div>
+            </div>
+          )}
+
+          {/* Error Message */}
+          {error && (
+            <div className="bg-red-50 border-l-4 border-red-400 p-4">
+              <div className="flex">
+                <AlertCircle className="h-5 w-5 text-red-400 shrink-0" />
+                <p className="ml-3 text-sm text-red-700">{error}</p>
               </div>
             </div>
           )}
