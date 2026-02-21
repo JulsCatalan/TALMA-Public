@@ -138,7 +138,7 @@ export default function TermsPage() {
               <div className="mb-4">
                 <h3 className="text-lg font-bold text-black mb-2">Estructura de precios.</h3>
                 <p className="text-gray-700 leading-relaxed">
-                  Los precios varían según la modalida, el plan seleccionado y el periodo de facturación. Los precios y las condiciones comerciales aplicables a cada plan se muestran en la oferta comercial vigente al momento de la contratación.
+                  Los precios varían según la modalidad, el plan seleccionado y el periodo de facturación. Los precios y las condiciones comerciales aplicables a cada plan se muestran en la oferta comercial vigente al momento de la contratación.
                 </p>
               </div>
 

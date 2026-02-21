@@ -4,6 +4,8 @@ import { Toaster } from "react-hot-toast";
 
 // Public pages
 import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import CookiesPage from "./pages/CookiesPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import TermsPage from "./pages/TermsPage";
 import PublicComplaintForm from "./pages/PublicComplaintForm";
@@ -15,8 +17,10 @@ function App() {
       <Routes>
         {/* ==================== PUBLIC ROUTES ==================== */}
         <Route path="/" element={<HomePage />} />
+        <Route path="/nosotros" element={<AboutPage />} />
+        <Route path="/cookies" element={<CookiesPage />} />
         <Route path="/privacidad" element={<PrivacyPage />} />
-        <Route path="/terminos-y-condiciones" element={<TermsPage />} />
+        <Route path="/terminos" element={<TermsPage />} />
         <Route path="/canal/:slug" element={<PublicComplaintForm />} />
 
         {/* ==================== 404 ==================== */}

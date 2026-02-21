@@ -53,7 +53,7 @@ export default function PrivacyPage() {
                 Responsable y ámbito de aplicación
               </h2>
               <p className="text-gray-700 leading-relaxed mb-4">
-                Julián Catalán Alcalá y Marco José Arellano Sánchez (los "Responsables"), con domicilio en Anillo Periférico Boulevard Adolfo López Mateos 4829, Parques del Pedregal, Tlalpan, 14010, Ciudad de México, son responsable del tratamiento de los datos personales recabados a través de la plataforma digital Talma Tech ("Plataforma" o "Talma Tech"), así como de los medios, módulos y servicios conectados a la Plataforma.
+                Julián Catalán Alcalá y Marco José Arellano Sánchez (los "Responsables"), con domicilio en Anillo Periférico Boulevard Adolfo López Mateos 4829, Parques del Pedregal, Tlalpan, 14010, Ciudad de México, son responsables del tratamiento de los datos personales recabados a través de la plataforma digital Talma Tech ("Plataforma" o "Talma Tech"), así como de los medios, módulos y servicios conectados a la Plataforma.
               </p>
               <p className="text-gray-700 leading-relaxed mb-4">
                 Este aviso de privacidad se aplica a los datos personales que los Responsables recaben, utilicen, conserven y traten directa o indirectamente a través de Talma Tech y mediante cualquier medio electrónico, óptico, sonoro o visual, conforme a lo previsto en la Ley Federal de Protección de Datos Personales en Posesión de los Particulares ("LFPDPPP").
@@ -207,7 +207,7 @@ export default function PrivacyPage() {
             {/* Derechos ARCO */}
             <div className="mb-12">
               <h2 className="text-2xl font-bold text-black mb-4 pb-2 border-b-2 border-gray-100">
-                Derechos Acceso, Rectificación, Cancelación u Oposición.
+                Derechos de Acceso, Rectificación, Cancelación u Oposición.
               </h2>
               <p className="text-gray-700 leading-relaxed mb-4">
                 Los titulares podrán ejercer los derechos de Acceso, Rectificación, Cancelación u Oposición ("ARCO"), así como revocar el consentimiento cuando proceda, en los términos de la LFPDPPP. Por disposición legal, la solicitud de ejercicio de derechos deberá contener los requisitos mínimos que permiten identificar al solicitante y localizar los datos.
@@ -225,7 +225,7 @@ export default function PrivacyPage() {
                 <p className="text-gray-700 mb-4">
                   Los Responsables notificarán al titular la procedencia o no de la solicitud en un plazo máximo de 20 días hábiles, y en caso de ser procedente, dará cumplimiento en los 15 días hábiles siguientes, de conformidad con lo establecido en la LFPDPPP. Si se requiere ampliación, podrá hacerse una sola vez y por un periodo igual cuando las circunstancias lo justifiquen.
                 </p>
-                <p className="text-gray-700 text-sm">
+                <p className="text-gray-700 mb-2">
                   Las solicitudes ARCO serán atendidas con trato sensible y confidencial; al presentarlas, el área de protección de datos podrá requerir documentación que acredite la identidad o representación del solicitante, conforme al procedimiento establecido en el aviso.
                 </p>
               </div>
