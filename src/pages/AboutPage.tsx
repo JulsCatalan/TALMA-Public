@@ -2,19 +2,11 @@
 // Requires: framer-motion, lucide-react, react-router-dom
 
 import { useRef } from "react";
-import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight, Menu } from "lucide-react";
-import { useState, useEffect } from "react";
-import { AnimatePresence } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import type { Variants } from "framer-motion";
-
-// ─── Smooth scroll ────────────────────────────────────────────────────────────
-
-function smoothScrollTo(id: string) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-}
+import Navbar from "../components/shared/Navbar";
+import Footer from "../components/shared/Footer";
 
 // ─── Animation helpers ────────────────────────────────────────────────────────
 
@@ -33,141 +25,22 @@ function useSection() {
   return { ref, inView };
 }
 
-// ─── Navbar (shared) ──────────────────────────────────────────────────────────
-
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 12);
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
-
-  return (
-    <motion.nav
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/98 backdrop-blur-sm shadow-sm border-b border-gray-100"
-          : "bg-white/95 backdrop-blur-sm border-b border-gray-100"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18 py-3">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-brand-red flex items-center justify-center">
-              <img
-                src="/talma-logo.webp"
-                alt="Talma Tech Logo"
-                className="object-center object-contain"
-              />
-            </div>
-            <div className="leading-none">
-              <span className="text-lg font-semibold tracking-tight text-brand-red">
-                TALMA
-              </span>
-              <span className="text-lg font-semibold tracking-tight text-black">
-                TECH
-              </span>
-            </div>
-          </Link>
-
-          <div className="hidden md:flex items-center gap-8">
-            {[
-              { id: "soluciones", label: "Soluciones", home: true },
-              { id: "como-funciona", label: "Cómo funciona", home: true },
-              { id: "precios", label: "Precios", home: true },
-            ].map(({ id, label, home }) => (
-              home ? (
-                <Link
-                  key={id}
-                  to={`/#${id}`}
-                  className="text-sm text-gray-600 hover:text-brand-red transition-colors"
-                >
-                  {label}
-                </Link>
-              ) : (
-                <button
-                  key={id}
-                  onClick={() => smoothScrollTo(id)}
-                  className="text-sm text-gray-600 hover:text-brand-red transition-colors"
-                >
-                  {label}
-                </button>
-              )
-            ))}
-          </div>
-
-          <div className="hidden md:flex items-center gap-4">
-            <a
-              href="https://cliente.talmatech.com/iniciar-sesion"
-              className="text-sm text-gray-600 hover:text-brand-red transition-colors"
-            >
-              Iniciar sesión
-            </a>
-            <a
-              href="https://cliente.talmatech.com/registro"
-              className="px-5 py-2.5 bg-brand-red text-white text-sm font-medium hover:bg-brand-red/90 transition-all"
-            >
-              Comenzar ahora
-            </a>
-          </div>
-
-          <button
-            className="md:hidden p-2"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            <Menu className="w-5 h-5 text-gray-700" />
-          </button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
-          >
-            <div className="px-6 py-4 space-y-3">
-              <Link to="/#soluciones" className="block text-sm text-gray-700 py-2">Soluciones</Link>
-              <Link to="/#como-funciona" className="block text-sm text-gray-700 py-2">Cómo funciona</Link>
-              <Link to="/#precios" className="block text-sm text-gray-700 py-2">Precios</Link>
-              <div className="pt-2 border-t border-gray-100 space-y-2">
-                <a href="https://cliente.talmatech.com/iniciar-sesion" className="block text-sm text-gray-700 py-2">Iniciar sesión</a>
-                <a href="https://cliente.talmatech.com/registro" className="block text-center py-2.5 bg-brand-red text-white text-sm font-medium">Comenzar ahora</a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
-  );
-}
-
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 function HeroSection() {
   return (
-    <section className="pt-32 pb-20 px-6 lg:px-8 bg-black overflow-hidden relative">
+    <section className="pt-32 pb-20 px-6 lg:px-8 overflow-hidden relative">
       {/* Subtle background texture */}
       <div className="absolute inset-0 opacity-5">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(0deg, transparent, transparent 39px, #fff 39px, #fff 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, #fff 39px, #fff 40px)",
+              "repeating-linear-gradient(0deg, transparent, transparent 39px, #000 39px, #000 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, #fff 39px, #fff 40px)",
           }}
         />
       </div>
-      {/* Brand-red accent shape */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-red/5 -skew-x-6 origin-top-right pointer-events-none" />
-
+      
       <div className="max-w-7xl mx-auto relative">
         <motion.div
           variants={fadeUp}
@@ -183,7 +56,7 @@ function HeroSection() {
           custom={1}
           initial="hidden"
           animate="visible"
-          className="text-4xl lg:text-6xl font-semibold text-white leading-tight max-w-4xl mb-8"
+          className="text-4xl lg:text-6xl font-semibold text-black leading-tight max-w-4xl mb-8"
         >
           El control de tu empresa{" "}
           <span className="text-brand-red">al alcance de tu mano.</span>
@@ -557,10 +430,7 @@ function CTASection() {
 
   return (
     <section ref={ref} className="py-24 px-6 lg:px-8 bg-brand-red text-white relative overflow-hidden">
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full translate-y-1/2 -translate-x-1/2" />
-      </div>
+   
       <div className="max-w-4xl mx-auto text-center relative">
         <motion.h2
           variants={fadeUp}
@@ -587,99 +457,6 @@ function CTASection() {
         </motion.div>
       </div>
     </section>
-  );
-}
-
-// ─── Footer (shared) ──────────────────────────────────────────────────────────
-
-function Footer() {
-  return (
-    <footer className="bg-black text-gray-500 border-t border-gray-900">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-7 h-7 bg-brand-red flex items-center justify-center">
-                <img src="/talma-logo.webp" alt="Talma Tech" className="object-contain" />
-              </div>
-              <div className="leading-none">
-                <span className="text-sm font-semibold text-brand-red">TALMA</span>
-                <span className="text-sm font-semibold text-white">TECH</span>
-              </div>
-            </div>
-            <p className="text-xs leading-relaxed font-light">
-              Plataforma de cumplimiento normativo para organizaciones que buscan gestionar riesgos de forma proactiva.
-            </p>
-          </div>
-
-          <div>
-            <div className="text-xs font-medium text-gray-300 uppercase tracking-wider mb-4">Producto</div>
-            <ul className="space-y-2.5">
-              {[
-                { label: "Canal de Denuncias", href: "/#soluciones" },
-                { label: "Capacitaciones", href: "/#soluciones" },
-                { label: "Auditorías", href: "/#soluciones" },
-                { label: "Precios", href: "/#precios" },
-              ].map((l) => (
-                <li key={l.label}>
-                  <Link to={l.href} className="text-xs hover:text-white transition-colors">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <div className="text-xs font-medium text-gray-300 uppercase tracking-wider mb-4">Nosotros</div>
-            <ul className="space-y-2.5">
-              {[
-                { label: "Quiénes somos", href: "/nosotros", ext: false },
-                { label: "Iniciar sesión", href: "https://cliente.talmatech.com/iniciar-sesion", ext: true },
-                { label: "Crear cuenta", href: "https://cliente.talmatech.com/registro", ext: true },
-              ].map((l) => (
-                <li key={l.label}>
-                  {l.ext ? (
-                    <a href={l.href} className="text-xs hover:text-white transition-colors">{l.label}</a>
-                  ) : (
-                    <Link to={l.href} className="text-xs hover:text-white transition-colors">{l.label}</Link>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <div className="text-xs font-medium text-gray-300 uppercase tracking-wider mb-4">Contacto</div>
-            <ul className="space-y-2.5">
-              <li>
-                <a href="mailto:contacto@talmatech.com" className="text-xs hover:text-white transition-colors">
-                  contacto@talmatech.com
-                </a>
-              </li>
-              <li>
-                <a href="mailto:soporte@talmatech.com" className="text-xs hover:text-white transition-colors">
-                  soporte@talmatech.com
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div className="border-t border-gray-900">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-5 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-xs">
-            © {new Date().getFullYear()} TALMA TECH. Todos los derechos reservados.
-          </p>
-          <div className="flex gap-5 text-xs">
-            <a href="/privacidad" className="hover:text-white transition-colors">Privacidad</a>
-            <a href="/terminos" className="hover:text-white transition-colors">Términos</a>
-            <a href="/politica-de-cookies" className="hover:text-white transition-colors">Política de cookies</a>
-          </div>
-        </div>
-      </div>
-    </footer>
   );
 }
 
