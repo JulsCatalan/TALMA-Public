@@ -1,17 +1,25 @@
 import React from "react";
-
-function smoothScrollTo(id: string) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-}
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Footer: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSectionClick = (id: string) => {
+    if (location.pathname === "/") {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      navigate(`/#${id}`);
+    }
+  };
+
   return (
     <footer className="bg-black text-gray-500 border-t border-gray-900">
       {/* Main footer */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          
+
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
@@ -23,12 +31,8 @@ const Footer: React.FC = () => {
                 />
               </div>
               <div className="leading-none">
-                <span className="text-sm font-semibold text-brand-red">
-                  TALMA{" "}
-                </span>
-                <span className="text-sm font-semibold text-white">
-                  TECH
-                </span>
+                <span className="text-sm font-semibold text-brand-red">TALMA </span>
+                <span className="text-sm font-semibold text-white">TECH</span>
               </div>
             </div>
             <p className="text-xs leading-relaxed font-light">
@@ -44,15 +48,15 @@ const Footer: React.FC = () => {
             </div>
             <ul className="space-y-2.5">
               {[
-                { label: "Canal de Denuncias", href: "soluciones" },
-                { label: "Capacitaciones", href: "soluciones" },
-                { label: "Auditorías", href: "soluciones" },
-                { label: "Precios", href: "precios" },
+                { label: "Canal de Denuncias", id: "soluciones" },
+                { label: "Capacitaciones", id: "soluciones" },
+                { label: "Auditorías", id: "soluciones" },
+                { label: "Precios", id: "precios" },
               ].map((l) => (
                 <li key={l.label}>
                   <button
                     type="button"
-                    onClick={() => smoothScrollTo(l.href)}
+                    onClick={() => handleSectionClick(l.id)}
                     className="text-xs hover:text-white transition-colors"
                   >
                     {l.label}
@@ -68,39 +72,31 @@ const Footer: React.FC = () => {
               Nosotros
             </div>
             <ul className="space-y-2.5">
-              {[
-                { label: "Quiénes somos", href: "/nosotros", ext: false },
-                {
-                  label: "Iniciar sesión",
-                  href: "https://cliente.talmatech.com/iniciar-sesion",
-                  ext: true,
-                },
-                {
-                  label: "Crear cuenta",
-                  href: "https://cliente.talmatech.com/registro",
-                  ext: true,
-                },
-              ].map((l) => (
-                <li key={l.label}>
-                  {l.ext ? (
-                    <a
-                      href={l.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs hover:text-white transition-colors"
-                    >
-                      {l.label}
-                    </a>
-                  ) : (
-                    <a
-                      href={l.href}
-                      className="text-xs hover:text-white transition-colors"
-                    >
-                      {l.label}
-                    </a>
-                  )}
-                </li>
-              ))}
+              <li>
+                <Link to="/nosotros" className="text-xs hover:text-white transition-colors">
+                  Quiénes somos
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="https://cliente.talmatech.com/iniciar-sesion"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs hover:text-white transition-colors"
+                >
+                  Iniciar sesión
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://cliente.talmatech.com/registro"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs hover:text-white transition-colors"
+                >
+                  Crear cuenta
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -139,15 +135,15 @@ const Footer: React.FC = () => {
             © {new Date().getFullYear()} TALMA TECH. Todos los derechos reservados.
           </p>
           <div className="flex gap-5 text-xs">
-            <a href="/privacidad" className="hover:text-white transition-colors">
+            <Link to="/privacidad" className="hover:text-white transition-colors">
               Privacidad
-            </a>
-            <a href="/terminos" className="hover:text-white transition-colors">
+            </Link>
+            <Link to="/terminos" className="hover:text-white transition-colors">
               Términos
-            </a>
-            <a href="/cookies" className="hover:text-white transition-colors">
+            </Link>
+            <Link to="/cookies" className="hover:text-white transition-colors">
               Política de cookies
-            </a>
+            </Link>
           </div>
         </div>
       </div>

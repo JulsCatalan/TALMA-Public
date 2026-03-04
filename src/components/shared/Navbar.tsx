@@ -1,22 +1,50 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu } from "lucide-react";
-
-function smoothScrollTo(id: string) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-}
 
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
+
+  // If we just navigated to /#section, scroll to it once the page renders
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      // Small timeout to let the page render first
+      const timer = setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
+
+  const handleNavClick = (id: string) => {
+    setMobileOpen(false);
+    if (location.pathname === "/") {
+      // Already on homepage — just scroll
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      // Navigate to homepage with hash; useEffect above will scroll
+      navigate(`/#${id}`);
+    }
+  };
+
+  const navLinks = [
+    { id: "soluciones", label: "Soluciones" },
+    { id: "como-funciona", label: "Cómo funciona" },
+    { id: "precios", label: "Precios" },
+  ];
 
   return (
     <motion.nav
@@ -31,7 +59,7 @@ const Navbar: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-18">
-          
+
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <div className="w-9 h-9 bg-brand-red flex items-center justify-center">
@@ -53,15 +81,11 @@ const Navbar: React.FC = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
-            {[
-              { id: "soluciones", label: "Soluciones" },
-              { id: "como-funciona", label: "Cómo funciona" },
-              { id: "precios", label: "Precios" },
-            ].map(({ id, label }) => (
+            {navLinks.map(({ id, label }) => (
               <button
                 key={id}
                 type="button"
-                onClick={() => smoothScrollTo(id)}
+                onClick={() => handleNavClick(id)}
                 className="text-sm text-gray-600 hover:text-brand-red transition-colors"
               >
                 {label}
@@ -73,16 +97,12 @@ const Navbar: React.FC = () => {
           <div className="hidden md:flex items-center gap-4">
             <a
               href="https://cliente.talmatech.com/iniciar-sesion"
-              target="_blank"
-              rel="noopener noreferrer"
               className="text-sm text-gray-600 hover:text-brand-red transition-colors"
             >
               Iniciar sesión
             </a>
             <a
               href="https://cliente.talmatech.com/registro"
-              target="_blank"
-              rel="noopener noreferrer"
               className="px-5 py-2.5 bg-brand-red text-white text-sm font-medium hover:bg-brand-red/90 transition-all"
             >
               Comenzar ahora
@@ -110,18 +130,11 @@ const Navbar: React.FC = () => {
             className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
           >
             <div className="px-6 py-4 space-y-3">
-              {[
-                { id: "soluciones", label: "Soluciones" },
-                { id: "como-funciona", label: "Cómo funciona" },
-                { id: "precios", label: "Precios" },
-              ].map(({ id, label }) => (
+              {navLinks.map(({ id, label }) => (
                 <button
                   key={id}
                   type="button"
-                  onClick={() => {
-                    smoothScrollTo(id);
-                    setMobileOpen(false);
-                  }}
+                  onClick={() => handleNavClick(id)}
                   className="block w-full text-left text-sm text-gray-700 py-2"
                 >
                   {label}
