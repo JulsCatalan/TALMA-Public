@@ -31,8 +31,9 @@ export default function PublicComplaintForm() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [channelConfig, setChannelConfig] =
-    useState<PublicChannelConfig | null>(null);
+  useState<PublicChannelConfig | null>(null);
   const [error, setError] = useState('');
+  const [errorType, setErrorType] = useState<'not_found' | 'inactive' | null>(null); // ← agregar
   const [trackingCode, setTrackingCode] = useState('');
   const [folio, setFolio] = useState('');
 
@@ -72,6 +73,7 @@ export default function PublicComplaintForm() {
     try {
       setLoading(true);
       setError('');
+      setErrorType(null);
 
       const response = await channelApi.getPublicConfig(slug!);
 
@@ -81,6 +83,7 @@ export default function PublicComplaintForm() {
         if (!config.can_receive_complaints) {
           setChannelConfig(config);
           setError(config.subscription_message);
+          setErrorType('inactive');
           return;
         }
 
@@ -103,6 +106,7 @@ export default function PublicComplaintForm() {
       } else {
         setChannelConfig(null);
         setError('Canal no encontrado');
+        setErrorType('not_found');
       }
     } catch (err: unknown) {
       setChannelConfig(null);
@@ -110,6 +114,7 @@ export default function PublicComplaintForm() {
         setError(err.message);
       } else {
         setError('Canal no encontrado');
+        setErrorType('not_found');
       }
     } finally {
       setLoading(false);
@@ -272,6 +277,31 @@ export default function PublicComplaintForm() {
       </div>
     );
   }
+
+  if (errorType === 'not_found') {
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6">
+      <div className="max-w-md w-full text-center">
+        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <Shield className="w-10 h-10 text-gray-300" />
+        </div>
+        <h1 className="text-2xl font-bold text-black mb-3">
+          Canal no encontrado
+        </h1>
+        <p className="text-gray-500 mb-8 leading-relaxed">
+          El canal de denuncias que buscas no existe o ha sido eliminado.
+          Verifica que el enlace sea correcto o contacta a la empresa que te lo compartió.
+        </p>
+        <div className="border-t border-gray-200 pt-6">
+          <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
+            <Shield className="w-4 h-4" />
+            <span>Plataforma de canales de denuncia por <span className="font-semibold text-gray-600">TALMA TECH</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
   if (!channelConfig) return null;
 
