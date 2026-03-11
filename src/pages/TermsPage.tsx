@@ -56,7 +56,7 @@ const sections = [
 function SectionHeading({ number, title }: { number: string; title: string }) {
   return (
     <div className="flex items-center gap-3 mb-5">
-      <span className="text-xs font-medium text-brand-red shrink-0">{number}.</span>
+      <span className="text-xs font-medium text-brand-blue shrink-0">{number}.</span>
       <h2 className="text-xl font-semibold text-black">{title}</h2>
     </div>
   );
@@ -104,14 +104,14 @@ function HeroSection() {
           }}
         />
       </div>
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-red/5 -skew-x-6 origin-top-right pointer-events-none" />
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-blue/5 -skew-x-6 origin-top-right pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative">
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="text-xs font-medium text-brand-red uppercase tracking-widest mb-5"
+          className="text-xs font-medium text-brand-blue uppercase tracking-widest mb-5"
         >
           Legal
         </motion.div>
@@ -124,7 +124,7 @@ function HeroSection() {
           className="text-4xl lg:text-5xl font-semibold text-white leading-tight max-w-3xl mb-4"
         >
           Términos y Condiciones{" "}
-          <span className="text-brand-red">de Uso de Talma Tech</span>
+          <span className="text-brand-blue">de Uso de Talma Tech</span>
         </motion.h1>
 
         <motion.p
@@ -142,7 +142,7 @@ function HeroSection() {
           custom={3}
           initial="hidden"
           animate="visible"
-          className="w-16 h-px bg-brand-red"
+          className="w-16 h-px bg-brand-blue"
         />
       </div>
     </section>
@@ -167,7 +167,7 @@ function ContentSection() {
             className="lg:col-span-3"
           >
             <div className="sticky top-28">
-              <div className="w-8 h-px bg-brand-red mb-4" />
+              <div className="w-8 h-px bg-brand-blue mb-4" />
               <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
                 Contenido
               </p>
@@ -176,7 +176,7 @@ function ContentSection() {
                   <button
                     key={s.id}
                     onClick={() => smoothScrollTo(s.id)}
-                    className="block w-full text-left text-sm text-gray-500 hover:text-brand-red py-1.5 transition-colors"
+                    className="block w-full text-left text-sm text-gray-500 hover:text-brand-blue py-1.5 transition-colors"
                   >
                     {s.label}
                   </button>
@@ -314,7 +314,7 @@ function ContentSection() {
               <SubHeading>Facturación y comprobantes.</SubHeading>
               <Para>
                 Talma Tech expedirá el comprobante correspondiente cuando el Cliente adquiera cualquier plan en la modalidad deseada. Para la emisión de su Comprobante Comprobante Fiscal Digital por Internet, el Cliente debe notificar por correo electrónico a{" "}
-                <a href="mailto:contacto@talmatech.com" className="text-brand-red font-medium hover:underline">
+                <a href="mailto:contacto@talmatech.com" className="text-brand-blue font-medium hover:underline">
                   contacto@talmatech.com
                 </a>
                 , que desea la emisión del mismo, por lo que deberá adjuntar en dicho correo electrónico su constancia de sitaución fiscal.
@@ -336,7 +336,7 @@ function ContentSection() {
               <SubHeading>Tratamiento de datos personales.</SubHeading>
               <Para>
                 Talma Tech tratará los datos personales recabados durante la prestación del Servicio conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares y su normativa secundaria. El uso y tratamiento de datos se rige por el Aviso de Privacidad publicado por Talma Tech, al que el Cliente y los titulares deberán remitirse para conocer finalidades, categorías de datos, derechos ARCO y mecanismos de ejercicio. Puedes consultar el Aviso de Privacidad{" "}
-                <Link to="/privacidad" className="text-brand-red font-medium hover:underline">
+                <Link to="/privacidad" className="text-brand-blue font-medium hover:underline">
                   aquí
                 </Link>.
               </Para>

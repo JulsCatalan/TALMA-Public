@@ -46,7 +46,7 @@ function HeroSection() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="text-xs font-medium text-brand-red uppercase tracking-widest mb-5"
+          className="text-xs font-medium text-brand-blue uppercase tracking-widest mb-5"
         >
           Nosotros
         </motion.div>
@@ -59,7 +59,7 @@ function HeroSection() {
           className="text-4xl lg:text-6xl font-semibold text-black leading-tight max-w-4xl mb-8"
         >
           El control de tu empresa{" "}
-          <span className="text-brand-red">al alcance de tu mano.</span>
+          <span className="text-brand-blue">al alcance de tu mano.</span>
         </motion.h1>
 
         <motion.div
@@ -67,7 +67,7 @@ function HeroSection() {
           custom={2}
           initial="hidden"
           animate="visible"
-          className="w-16 h-px bg-brand-red"
+          className="w-16 h-px bg-brand-blue"
         />
       </div>
     </section>
@@ -90,7 +90,7 @@ function OrigenSection() {
             className="lg:col-span-3"
           >
             <div className="sticky top-28">
-              <div className="w-8 h-px bg-brand-red mb-4" />
+              <div className="w-8 h-px bg-brand-blue mb-4" />
               <h2 className="text-2xl font-semibold text-black">Origen.</h2>
             </div>
           </motion.div>
@@ -138,7 +138,7 @@ function MisionVisionSection() {
             className="bg-white border border-gray-100 p-10"
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-6 h-6 bg-brand-red flex items-center justify-center shrink-0">
+              <div className="w-6 h-6 bg-brand-blue flex items-center justify-center shrink-0">
                 <div className="w-2 h-2 bg-white" />
               </div>
               <h2 className="text-xl font-semibold text-black">Misión</h2>
@@ -158,11 +158,11 @@ function MisionVisionSection() {
             custom={1}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="bg-brand-red p-10"
+            className="bg-brand-blue p-10"
           >
             <div className="flex items-center gap-3 mb-6">
               <div className="w-6 h-6 bg-white flex items-center justify-center shrink-0">
-                <div className="w-2 h-2 bg-brand-red" />
+                <div className="w-2 h-2 bg-brand-blue" />
               </div>
               <h2 className="text-xl font-semibold text-white">Visión</h2>
             </div>
@@ -222,7 +222,7 @@ function ValoresSection() {
             className="lg:col-span-3"
           >
             <div className="sticky top-28">
-              <div className="w-8 h-px bg-brand-red mb-4" />
+              <div className="w-8 h-px bg-brand-blue mb-4" />
               <h2 className="text-2xl font-semibold text-black">Valores</h2>
             </div>
           </motion.div>
@@ -235,9 +235,9 @@ function ValoresSection() {
                 custom={i * 0.4}
                 initial="hidden"
                 animate={inView ? "visible" : "hidden"}
-                className="group border border-gray-100 p-6 hover:border-brand-red/30 hover:shadow-sm transition-all"
+                className="group border border-gray-100 p-6 hover:border-brand-blue/30 hover:shadow-sm transition-all"
               >
-                <div className="w-1 h-5 bg-brand-red mb-4" />
+                <div className="w-1 h-5 bg-brand-blue mb-4" />
                 <h3 className="text-sm font-semibold text-black mb-2">
                   {v.name}
                 </h3>
@@ -302,7 +302,7 @@ function QueHacemosSection() {
             className="lg:col-span-3"
           >
             <div className="sticky top-28">
-              <div className="w-8 h-px bg-brand-red mb-4" />
+              <div className="w-8 h-px bg-brand-blue mb-4" />
               <h2 className="text-2xl font-semibold text-black">
                 Lo que hacemos
               </h2>
@@ -319,7 +319,7 @@ function QueHacemosSection() {
                 animate={inView ? "visible" : "hidden"}
                 className="group flex gap-6 py-7 border-b border-gray-200 last:border-0 hover:bg-white hover:-mx-6 hover:px-6 transition-all duration-200"
               >
-                <span className="text-xs font-medium text-brand-red mt-0.5 shrink-0 w-6">
+                <span className="text-xs font-medium text-brand-blue mt-0.5 shrink-0 w-6">
                   {item.num}
                 </span>
                 <div>
@@ -371,7 +371,7 @@ function ImpactoSection() {
             animate={inView ? "visible" : "hidden"}
             className="lg:col-span-4"
           >
-            <div className="w-8 h-px bg-brand-red mb-4" />
+            <div className="w-8 h-px bg-brand-blue mb-4" />
             <h2 className="text-2xl font-semibold text-white mb-2">
               Cómo impacta en tu organización
             </h2>
@@ -408,7 +408,7 @@ function ImpactoSection() {
               animate={inView ? "visible" : "hidden"}
               className="bg-black p-8"
             >
-              <div className="text-brand-red text-xs font-medium uppercase tracking-widest mb-3">
+              <div className="text-brand-blue text-xs font-medium uppercase tracking-widest mb-3">
                 0{i + 1}
               </div>
               <div className="text-white font-semibold text-base mb-1.5">
@@ -429,7 +429,7 @@ function CTASection() {
   const { ref, inView } = useSection();
 
   return (
-    <section ref={ref} className="py-24 px-6 lg:px-8 bg-brand-red text-white relative overflow-hidden">
+    <section ref={ref} className="py-24 px-6 lg:px-8 bg-brand-blue text-white relative overflow-hidden">
    
       <div className="max-w-4xl mx-auto text-center relative">
         <motion.h2
@@ -449,7 +449,7 @@ function CTASection() {
         >
           <a
             href="https://cliente.talmatech.com/registro"
-            className="inline-flex items-center px-8 py-4 bg-white text-brand-red text-sm font-semibold hover:bg-gray-50 transition-all group shadow-xl"
+            className="inline-flex items-center px-8 py-4 bg-white text-brand-blue text-sm font-semibold hover:bg-gray-50 transition-all group shadow-xl"
           >
             Crear cuenta ahora
             <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />

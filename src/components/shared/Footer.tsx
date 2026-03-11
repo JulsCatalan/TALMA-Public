@@ -23,15 +23,15 @@ const Footer: React.FC = () => {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-7 h-7 bg-brand-red flex items-center justify-center">
+              <div className="w-7 h-7 bg-brand-blue flex items-center justify-center">
                 <img
-                  src="/talma-logo.webp"
+                  src="/logo-talma.webp"
                   alt="Talma Tech"
                   className="object-contain"
                 />
               </div>
               <div className="leading-none">
-                <span className="text-sm font-semibold text-brand-red">TALMA </span>
+                <span className="text-sm font-semibold text-brand-blue">TALMA </span>
                 <span className="text-sm font-semibold text-white">TECH</span>
               </div>
             </div>

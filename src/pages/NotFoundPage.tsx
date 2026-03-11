@@ -10,18 +10,18 @@ export default function NotFoundPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <Link to="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-brand-red flex items-center justify-center">
-              <img src="/talma-logo.webp" alt="Talma Tech Logo"  className="object-center object-contain"/>
+              <div className="w-10 h-10 bg-brand-blue flex items-center justify-center">
+              <img src="/logo-talma.webp" alt="Talma Tech Logo"  className="object-center object-contain"/>
             </div>
               <div>
-                <span className="text-xl font-bold tracking-tight text-brand-red">TALMA</span>
+                <span className="text-xl font-bold tracking-tight text-brand-blue">TALMA</span>
                 <span className="text-xl font-bold tracking-tight text-black">TECH</span>
               </div>
             </Link>
 
             <Link 
               to="/" 
-              className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-red transition-colors"
+              className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-blue transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Volver al inicio
@@ -37,7 +37,7 @@ export default function NotFoundPage() {
           {/* Error Code */}
           <div className="mb-6">
             <h1 className="text-8xl font-black text-black mb-2">404</h1>
-            <div className="h-1 w-24 bg-brand-red mx-auto"></div>
+            <div className="h-1 w-24 bg-brand-blue mx-auto"></div>
           </div>
 
           {/* Error Message */}
@@ -54,7 +54,7 @@ export default function NotFoundPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               to="/" 
-              className="inline-flex items-center justify-center px-8 py-4 bg-brand-red text-white font-bold hover:bg-brand-red/90 transition-all shadow-lg shadow-brand-red/20 group"
+              className="inline-flex items-center justify-center px-8 py-4 bg-brand-blue text-white font-bold hover:bg-brand-blue/90 transition-all shadow-lg shadow-brand-blue/20 group"
             >
               <Home className="w-5 h-5 mr-2" />
               Ir al inicio
@@ -62,7 +62,7 @@ export default function NotFoundPage() {
             
             <button 
               onClick={() => window.history.back()}
-              className="inline-flex items-center justify-center px-8 py-4 border-2 border-gray-200 text-black font-bold hover:border-brand-red hover:text-brand-red transition-all"
+              className="inline-flex items-center justify-center px-8 py-4 border-2 border-gray-200 text-black font-bold hover:border-brand-blue hover:text-brand-blue transition-all"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
               Página anterior
@@ -78,11 +78,11 @@ export default function NotFoundPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-brand-red flex items-center justify-center">
+              <div className="w-8 h-8 bg-brand-blue flex items-center justify-center">
                 <Home className="w-5 h-5 text-white" />
               </div>
               <div>
-                <span className="font-bold text-brand-red">TALMA</span>
+                <span className="font-bold text-brand-blue">TALMA</span>
                 <span className="font-bold text-black">TECH</span>
               </div>
             </Link>

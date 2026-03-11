@@ -51,7 +51,7 @@ const sections = [
 function SectionHeading({ title }: { title: string }) {
   return (
     <div className="flex items-center gap-3 mb-5">
-      <div className="w-1 h-5 bg-brand-red shrink-0" />
+      <div className="w-1 h-5 bg-brand-blue shrink-0" />
       <h2 className="text-xl font-semibold text-black">{title}</h2>
     </div>
   );
@@ -59,7 +59,7 @@ function SectionHeading({ title }: { title: string }) {
 
 function BulletItem({ children, variant = "red" }: { children: React.ReactNode; variant?: "red" | "gray" | "black" }) {
   const colors = {
-    red: "bg-brand-red",
+    red: "bg-brand-blue",
     gray: "bg-gray-400",
     black: "bg-black",
   };
@@ -122,14 +122,14 @@ function HeroSection() {
           }}
         />
       </div>
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-red/5 -skew-x-6 origin-top-right pointer-events-none" />
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-blue/5 -skew-x-6 origin-top-right pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative">
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="text-xs font-medium text-brand-red uppercase tracking-widest mb-5"
+          className="text-xs font-medium text-brand-blue uppercase tracking-widest mb-5"
         >
           Legal
         </motion.div>
@@ -142,7 +142,7 @@ function HeroSection() {
           className="text-4xl lg:text-5xl font-semibold text-white leading-tight max-w-3xl mb-4"
         >
           Aviso de Privacidad{" "}
-          <span className="text-brand-red">de Talma Tech</span>
+          <span className="text-brand-blue">de Talma Tech</span>
         </motion.h1>
 
         <motion.p
@@ -160,7 +160,7 @@ function HeroSection() {
           custom={3}
           initial="hidden"
           animate="visible"
-          className="w-16 h-px bg-brand-red"
+          className="w-16 h-px bg-brand-blue"
         />
       </div>
     </section>
@@ -185,7 +185,7 @@ function ContentSection() {
             className="lg:col-span-3"
           >
             <div className="sticky top-28">
-              <div className="w-8 h-px bg-brand-red mb-4" />
+              <div className="w-8 h-px bg-brand-blue mb-4" />
               <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
                 Contenido
               </p>
@@ -194,7 +194,7 @@ function ContentSection() {
                   <button
                     key={s.id}
                     onClick={() => smoothScrollTo(s.id)}
-                    className="block w-full text-left text-sm text-gray-500 hover:text-brand-red py-1.5 transition-colors"
+                    className="block w-full text-left text-sm text-gray-500 hover:text-brand-blue py-1.5 transition-colors"
                   >
                     {s.label}
                   </button>
@@ -311,7 +311,7 @@ function ContentSection() {
               <InfoBox>
                 <p className="text-gray-700">
                   Medio para ejercer derechos ARCO: correo electrónico{" "}
-                  <a href="mailto:contacto@talmatech.com" className="text-brand-red font-medium hover:text-brand-red/80 transition-colors">
+                  <a href="mailto:contacto@talmatech.com" className="text-brand-blue font-medium hover:text-brand-blue/80 transition-colors">
                     contacto@talmatech.com
                   </a>.
                 </p>
@@ -384,14 +384,14 @@ function ContentSection() {
               <InfoBox>
                 <p className="text-gray-700">
                   Para cualquier duda, aclaración o ejercicio de derechos ARCO:{" "}
-                  <a href="mailto:contacto@talmatech.com" className="text-brand-red font-medium hover:underline">
+                  <a href="mailto:contacto@talmatech.com" className="text-brand-blue font-medium hover:underline">
                     contacto@talmatech.com
                   </a>. Responsable: Julián Catalán Alcalá y Marco José Arellano Sánchez. Domicilio: Anillo Periférico Boulevard Adolfo López Mateos 4829, Parques del Pedregal, Tlalpan, 14010, Ciudad de México.
                 </p>
                 <p className="text-gray-700 text-sm">
                   Correos contacto de Talma Tech:{" "}
-                  <a href="mailto:contacto@talmatech.com" className="text-brand-red font-medium hover:underline">contacto@talmatech.com</a>,{" "}
-                  <a href="mailto:soporte@talmatech.com" className="text-brand-red font-medium hover:underline">soporte@talmatech.com</a>.
+                  <a href="mailto:contacto@talmatech.com" className="text-brand-blue font-medium hover:underline">contacto@talmatech.com</a>,{" "}
+                  <a href="mailto:soporte@talmatech.com" className="text-brand-blue font-medium hover:underline">soporte@talmatech.com</a>.
                 </p>
               </InfoBox>
             </div>

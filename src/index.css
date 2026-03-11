@@ -3,10 +3,12 @@
 
 @theme {
 
-  --color-brand-red: #4e1d23;
+  --color-brand-blue: #002D56;
   --color-brand-bone: #EDE6DC;
 }
 
 *{
   font-family: "Inter", sans-serif;
 }
+
+/* 002D56 */

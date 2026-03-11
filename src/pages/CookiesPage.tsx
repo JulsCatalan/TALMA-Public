@@ -53,7 +53,7 @@ function HeroSection() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="text-xs font-medium text-brand-red uppercase tracking-widest mb-5"
+          className="text-xs font-medium text-brand-blue uppercase tracking-widest mb-5"
         >
           Legal
         </motion.div>
@@ -66,7 +66,7 @@ function HeroSection() {
           className="text-4xl lg:text-5xl font-semibold text-black leading-tight max-w-3xl mb-6"
         >
           Política de Cookies{" "}
-          <span className="text-brand-red">de Uso de Talma Tech</span>
+          <span className="text-brand-blue">de Uso de Talma Tech</span>
         </motion.h1>
 
         <motion.div
@@ -74,7 +74,7 @@ function HeroSection() {
           custom={2}
           initial="hidden"
           animate="visible"
-          className="w-16 h-px bg-brand-red"
+          className="w-16 h-px bg-brand-blue"
         />
       </div>
     </section>
@@ -108,7 +108,7 @@ function ContentSection() {
             className="lg:col-span-3"
           >
             <div className="sticky top-28">
-              <div className="w-8 h-px bg-brand-red mb-4" />
+              <div className="w-8 h-px bg-brand-blue mb-4" />
               <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
                 Contenido
               </p>
@@ -117,7 +117,7 @@ function ContentSection() {
                   <button
                     key={s.id}
                     onClick={() => smoothScrollTo(s.id)}
-                    className="block w-full text-left text-sm text-gray-500 hover:text-brand-red py-1.5 transition-colors"
+                    className="block w-full text-left text-sm text-gray-500 hover:text-brand-blue py-1.5 transition-colors"
                   >
                     {s.label}
                   </button>
@@ -163,7 +163,7 @@ function ContentSection() {
 
                 {/* 3.1 Autenticación */}
                 <CookieCard
-                  icon={<Shield className="w-5 h-5 text-brand-red" />}
+                  icon={<Shield className="w-5 h-5 text-brand-blue" />}
                   number="1"
                   title="Cookies de autenticación"
                   badge="imprescindibles"
@@ -219,8 +219,8 @@ function ContentSection() {
               </div>
 
               {/* Note */}
-              <div className="mt-6 border border-brand-red/20 bg-brand-red/4 p-5 flex gap-3">
-                <Info className="w-4 h-4 text-brand-red shrink-0 mt-0.5" />
+              <div className="mt-6 border border-brand-blue/20 bg-brand-blue/4 p-5 flex gap-3">
+                <Info className="w-4 h-4 text-brand-blue shrink-0 mt-0.5" />
                 <p className="text-sm text-gray-600 leading-relaxed font-light">
                   Talma Tech no utiliza cookies para publicidad ni para elaborar
                   perfiles comerciales. Las cookies no esenciales solo se usan
@@ -252,7 +252,7 @@ function ContentSection() {
 function SectionHeading({ number, title }: { number: string; title: string }) {
   return (
     <div className="flex items-center gap-3 mb-5">
-      <span className="text-xs font-medium text-brand-red">{number}.</span>
+      <span className="text-xs font-medium text-brand-blue">{number}.</span>
       <h2 className="text-xl font-semibold text-black">{title}</h2>
     </div>
   );
@@ -286,7 +286,7 @@ function CookieCard({
             <span
               className={`text-xs px-2 py-0.5 font-medium ${
                 badgeVariant === "red"
-                  ? "bg-brand-red/10 text-brand-red"
+                  ? "bg-brand-blue/10 text-brand-blue"
                   : "bg-gray-100 text-gray-500"
               }`}
             >

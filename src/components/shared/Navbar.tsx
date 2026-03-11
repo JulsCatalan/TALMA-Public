@@ -62,15 +62,15 @@ const Navbar: React.FC = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-brand-red flex items-center justify-center">
+            <div className="w-9 h-9 bg-brand-blue flex items-center justify-center">
               <img
-                src="/talma-logo.webp"
+                src="/logo-talma.webp"
                 alt="Talma Tech Logo"
                 className="object-contain"
               />
             </div>
             <div className="leading-none">
-              <span className="text-lg font-semibold tracking-tight text-brand-red">
+              <span className="text-lg font-semibold tracking-tight text-brand-blue">
                 TALMA
               </span>
               <span className="text-lg font-semibold tracking-tight text-black">
@@ -86,7 +86,7 @@ const Navbar: React.FC = () => {
                 key={id}
                 type="button"
                 onClick={() => handleNavClick(id)}
-                className="text-sm text-gray-600 hover:text-brand-red transition-colors"
+                className="text-sm text-gray-600 hover:text-brand-blue transition-colors"
               >
                 {label}
               </button>
@@ -97,13 +97,13 @@ const Navbar: React.FC = () => {
           <div className="hidden md:flex items-center gap-4">
             <a
               href="https://cliente.talmatech.com/iniciar-sesion"
-              className="text-sm text-gray-600 hover:text-brand-red transition-colors"
+              className="text-sm text-gray-600 hover:text-brand-blue transition-colors"
             >
               Iniciar sesión
             </a>
             <a
               href="https://cliente.talmatech.com/registro"
-              className="px-5 py-2.5 bg-brand-red text-white text-sm font-medium hover:bg-brand-red/90 transition-all"
+              className="px-5 py-2.5 bg-brand-blue text-white text-sm font-medium hover:bg-brand-blue/90 transition-all"
             >
               Comenzar ahora
             </a>
@@ -154,7 +154,7 @@ const Navbar: React.FC = () => {
                   href="https://cliente.talmatech.com/registro"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block text-center py-2.5 bg-brand-red text-white text-sm font-medium"
+                  className="block text-center py-2.5 bg-brand-blue text-white text-sm font-medium"
                 >
                   Comenzar ahora
                 </a>
