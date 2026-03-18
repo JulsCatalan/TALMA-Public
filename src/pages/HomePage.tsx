@@ -13,9 +13,6 @@ import {
   Users,
   ChevronDown,
   Check,
-  AlertTriangle,
-  MessageSquareOff,
-  Gavel,
 } from "lucide-react";
 import type { Variants } from "framer-motion";
 import Footer from "../components/shared/Footer";
@@ -61,7 +58,7 @@ function HeroSection() {
             animate="visible"
             className="inline-flex items-center gap-2 px-4 py-1.5 border border-gray-200 text-gray-500 text-xs font-medium mb-8"
           >
-            Plataforma de cumplimiento normativo · México y LATAM
+            Plataforma de cumplimiento normativo
           </motion.div>
 
           <motion.h1
@@ -72,7 +69,6 @@ function HeroSection() {
           >
             <span className="text-black">Tu empresa necesita un</span>{" "}
             <span className="text-brand-blue">canal de denuncias, quejas y sugerencias.</span>{" "}
-            <span className="text-black">Nosotros te damos la plataforma y los abogados que investigan.</span>
           </motion.h1>
 
           <motion.p
@@ -82,6 +78,7 @@ function HeroSection() {
             animate="visible"
             className="text-lg text-gray-500 mb-10 leading-relaxed max-w-2xl mx-auto font-light"
           >
+            Nosotros te damos la plataforma y los abogados que analizan.
             Recibe, gestiona y resuelve denuncias, quejas y sugerencias de forma
             estructurada. Con asesoría legal incluida o de forma autónoma.
           </motion.p>
@@ -108,20 +105,6 @@ function HeroSection() {
             </a>
           </motion.div>
 
-          <motion.div
-            variants={fadeUp}
-            custom={3}
-            initial="hidden"
-            animate="visible"
-            className="flex items-center justify-center gap-8 text-xs text-gray-400"
-          >
-            {["Anónimo y confidencial", "NOM-035 STPS", "Abogados especializados"].map((tag) => (
-              <div key={tag} className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-brand-blue" />
-                <span>{tag}</span>
-              </div>
-            ))}
-          </motion.div>
         </div>
 
         {/* Dashboard Preview */}
@@ -130,7 +113,7 @@ function HeroSection() {
           custom={4}
           initial="hidden"
           animate="visible"
-          className="max-w-5xl mx-auto mt-16"
+          className="max-w-5xl mx-auto mt-32"
         >
           <p className="text-center text-sm text-gray-400 mb-5 font-light tracking-wide uppercase">
             Dashboard en tiempo real con seguimiento continuo y trazable
@@ -192,67 +175,6 @@ function HeroSection() {
 }
 
 
-// ─── Problem Section ──────────────────────────────────────────────────────────
-
-function ProblemSection() {
-  const { ref, inView } = useSection();
-
-  const problems = [
-    {
-      icon: <MessageSquareOff className="w-6 h-6 text-gray-400" />,
-      title: "Las denuncias llegan por WhatsApp",
-      desc: "Sin canal formal, la información se distorsiona, se pierde, o nunca llega a quien debe.",
-    },
-    {
-      icon: <AlertTriangle className="w-6 h-6 text-gray-400" />,
-      title: "Sin trazabilidad, no hay rendición de cuentas",
-      desc: "Sin registro de quién recibió qué y cuándo, la empresa queda expuesta ante auditorías y litigios.",
-    },
-    {
-      icon: <Gavel className="w-6 h-6 text-gray-400" />,
-      title: "La NOM-035 exige un canal. La mayoría no lo tiene.",
-      desc: "Empresas con más de 50 empleados están obligadas. El incumplimiento tiene consecuencias.",
-    },
-  ];
-
-  return (
-    <section ref={ref} className="py-20 px-6 lg:px-8 bg-gray-50 border-y border-gray-100">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="text-center mb-12"
-        >
-          <h2 className="text-2xl lg:text-3xl font-semibold mb-3 text-black">
-            Sin un canal formal, tu empresa opera con riesgo
-          </h2>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {problems.map((p, i) => (
-            <motion.div
-              key={p.title}
-              variants={fadeUp}
-              custom={i}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              className="p-6 bg-white border border-gray-200"
-            >
-              <div className="w-10 h-10 bg-gray-100 flex items-center justify-center mb-4">
-                {p.icon}
-              </div>
-              <h3 className="text-sm font-semibold text-black mb-2">{p.title}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed font-light">{p.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-
 // ─── Two Products ─────────────────────────────────────────────────────────────
 
 function TwoProductsSection() {
@@ -304,7 +226,7 @@ function TwoProductsSection() {
                 "Dashboard de gestión en tiempo real",
                 "Control de estados, comentarios y evidencias",
                 "Exportación a PDF y CSV",
-                "Gestión por roles (owner / admin / estándar)",
+                "Gestión por roles (dueño / administrador / usuario estándar)",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-sm text-gray-600">
                   <Check className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
@@ -349,7 +271,6 @@ function TwoProductsSection() {
                 "Análisis legal de cada denuncia por abogados",
                 "Reporte legal formal por escrito",
                 "Plan de acción personalizado con recomendaciones",
-                "Protección jurídica ante posibles litigios",
                 "Orientación para tomar decisiones informadas",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-sm text-gray-700">
@@ -383,7 +304,6 @@ function TwoProductsSection() {
           <div className="flex flex-wrap gap-x-8 gap-y-2">
             {[
               "Canal disponible 24/7",
-              "Anonimato garantizado",
               "Acceso desde cualquier dispositivo",
               "Soporte técnico",
               "Cumplimiento NOM-035",
@@ -488,11 +408,11 @@ function HowItWorksSection() {
             <Scale className="w-6 h-6 text-brand-blue shrink-0 mt-0.5" />
             <div>
               <div className="text-sm font-semibold text-black mb-1">
-                ¿Qué hace exactamente el abogado?
+                ¿Qué hace exactamente nuestro equipo legal?
               </div>
               <p className="text-sm text-gray-600 font-light leading-relaxed">
                 Analiza la denuncia, redacta un reporte legal formal con sus hallazgos
-                y propone un plan de acción concreto. Certeza jurídica en cada caso.
+                y propone un plan de acción concreto.
               </p>
             </div>
           </div>
@@ -527,7 +447,7 @@ function ValuePropsSection() {
     {
       icon: <Lock className="w-6 h-6 text-brand-blue" />,
       title: "URL personalizada",
-      desc: "Canal propio con acceso cifrado. Los empleados saben que es oficial.",
+      desc: "Canal propio con acceso cifrado. ",
     },
     {
       icon: <TrendingUp className="w-6 h-6 text-brand-blue" />,
@@ -537,7 +457,7 @@ function ValuePropsSection() {
     {
       icon: <Users className="w-6 h-6 text-brand-blue" />,
       title: "Gestión por roles",
-      desc: "Owner, admin y usuario estándar con permisos diferenciados.",
+      desc: "Dueño, administrador y usuario estándar con permisos diferenciados.",
     },
   ];
 
@@ -579,38 +499,6 @@ function ValuePropsSection() {
 }
 
 
-// ─── Normativa bar ────────────────────────────────────────────────────────────
-
-function NormativaBar() {
-  const { ref, inView } = useSection();
-
-  return (
-    <section ref={ref} className="py-12 px-6 bg-black">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          {[
-            { value: "NOM-035-STPS-2018", label: "Identificación de factores de riesgo psicosocial" },
-            { value: "Ley General de Responsabilidades Administrativas", label: "Marco anticorrupción para empresas" },
-            { value: "Estándares internacionales de compliance", label: "ISO 37001 y mejores prácticas globales" },
-          ].map((s, i) => (
-            <motion.div
-              key={s.value}
-              variants={fadeUp}
-              custom={i}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              className="text-center"
-            >
-              <div className="text-sm font-semibold text-white mb-1">{s.value}</div>
-              <div className="text-xs text-gray-400">{s.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 
 // ─── Pricing ──────────────────────────────────────────────────────────────────
 
@@ -644,7 +532,7 @@ function PricingSection() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl lg:text-4xl font-semibold mb-4 text-black">
-            Planes simples y transparentes
+            Nuestros Planes
           </h2>
           <p className="text-base text-gray-500 font-light max-w-xl mx-auto mb-8">
             Sin costos ocultos. Cancela cuando quieras.
@@ -749,7 +637,7 @@ function PricingSection() {
                 Plataforma y Servicios de Cumplimiento
               </h3>
               <p className="text-sm text-gray-500 font-light">
-                Abogados especializados investigan y emiten reporte legal por cada denuncia.
+                Abogados especializados analizan y emiten reporte legal por cada denuncia.
               </p>
             </div>
 
@@ -804,10 +692,6 @@ function PricingSection() {
             </a>
           </motion.div>
         </div>
-
-        <p className="text-center text-xs text-gray-400 mt-8">
-          Acceso 24/7 · Sin tarjeta de crédito requerida · Cancela cuando quieras
-        </p>
       </div>
     </section>
   );
@@ -823,15 +707,15 @@ function FAQSection() {
   const faqs = [
     {
       q: "¿Qué tipos de registros se pueden enviar por el canal?",
-      a: "El canal recibe tres tipos de registros: denuncias (incluyendo subcategorías de riesgo como acoso, fraude o conductas indebidas), quejas y sugerencias. Cada tipo tiene su propio flujo y configuración dentro de la plataforma.",
+      a: "El canal recibe tres tipos de registros: denuncias (incluyendo subcategorías de riesgo como conductas con apariencia de delito), quejas y sugerencias. Cada tipo tiene su propio flujo y configuración dentro de la plataforma.",
     },
     {
       q: "¿Las denuncias son realmente anónimas?",
       a: "Sí. Los denunciantes pueden enviar su reporte sin registrar ningún dato personal. Reciben un código único de seguimiento para consultar el estado de su caso sin revelar su identidad.",
     },
     {
-      q: "¿Qué hace exactamente el abogado cuando llega una denuncia?",
-      a: "Analiza la denuncia recibida, identifica el tipo de riesgo o infracción, redacta un reporte legal formal con sus hallazgos y propone un plan de acción con recomendaciones concretas.",
+      q: "¿Qué hace exactamente nuestro equipo legal cuando llega una denuncia?",
+      a: "Analiza la denuncia recibida, identifica el tipo de riesgo, redacta un reporte legal formal con sus hallazgos y propone un plan de acción con recomendaciones concretas.",
     },
     {
       q: "¿Cuánto tiempo tarda en estar activo el canal?",
@@ -843,7 +727,7 @@ function FAQSection() {
     },
     {
       q: "¿Qué normativas cumple la plataforma?",
-      a: "TALMA TECH está alineada con la NOM-035-STPS-2018 y apoya el cumplimiento de marcos como la Ley General de Responsabilidades Administrativas y estándares internacionales de compliance.",
+      a: "TALMA TECH está alineada con la NOM-035-STPS-2018 y estándares internacionales de compliance, tal como la ISO 37002.",
     },
   ];
 
@@ -919,15 +803,25 @@ function CTASection() {
       <div className="max-w-4xl mx-auto text-center relative">
         <motion.h2
           variants={fadeUp}
+          custom={1}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="text-3xl lg:text-4xl font-semibold mb-8"
+          className="text-3xl lg:text-4xl font-semibold mb-4"
         >
-          Activo el mismo día. Sin tarjeta de crédito.
+          Tu empresa merece un canal de denuncias profesional
         </motion.h2>
+        <motion.p
+          variants={fadeUp}
+          custom={2}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="text-base text-white/70 font-light mb-10 max-w-xl mx-auto"
+        >
+          Crea tu cuenta hoy y ten el canal activo antes de que termine el día.
+        </motion.p>
         <motion.div
           variants={fadeUp}
-          custom={1}
+          custom={3}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           className="flex flex-col sm:flex-row gap-3 justify-center"
@@ -952,6 +846,7 @@ function CTASection() {
 }
 
 
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
@@ -960,11 +855,10 @@ export default function HomePage() {
       <Navbar />
       <main>
         <HeroSection />
-        <ProblemSection />
+
         <TwoProductsSection />
         <HowItWorksSection />
         <ValuePropsSection />
-        <NormativaBar />
         <PricingSection />
         <FAQSection />
         <CTASection />
