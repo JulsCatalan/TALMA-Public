@@ -30,7 +30,7 @@ function isActiveChannel(
 /* Record type config */
 /* -------------------------------------------------- */
 
-const RECORD_TYPES = [
+const ALL_RECORD_TYPES = [
   {
     type: 'complaint' as RecordType,
     label: 'Denuncia',
@@ -65,6 +65,8 @@ const RECORD_TYPES = [
     icon: Lightbulb
   }
 ] as const;
+
+const DEFAULT_ENABLED_TYPES: RecordType[] = ['complaint', 'grievance', 'suggestion'];
 
 /* -------------------------------------------------- */
 /* UI helpers */
@@ -201,11 +203,14 @@ export default function PublicComplaintForm() {
           }
         }
 
-        // Después de cargar el config, donde seteas recordType default:
-      // En loadChannelConfig, dentro del bloque donde setChannelConfig:
-      const enabledTypes = config.enabled_record_types ?? ['complaint', 'grievance', 'suggestion'];
-      setRecordType(enabledTypes[0] as RecordType);
-      setChannelConfig({ ...config, allowed_file_types: allowedFileTypes });
+        // Setear el primer tipo habilitado como default
+        const enabledTypes: RecordType[] =
+          Array.isArray(config.enabled_record_types) && config.enabled_record_types.length > 0
+            ? config.enabled_record_types
+            : DEFAULT_ENABLED_TYPES;
+
+        setRecordType(enabledTypes[0]);
+        setChannelConfig({ ...config, allowed_file_types: allowedFileTypes });
       } else {
         setChannelConfig(null);
         setError('Canal no encontrado');
@@ -218,6 +223,18 @@ export default function PublicComplaintForm() {
     } finally {
       setLoading(false);
     }
+  };
+
+  /* ---- Helpers ---- */
+
+  // Lista de tipos visibles según configuración del canal
+  const getEnabledRecordTypes = () => {
+    if (!isActiveChannel(channelConfig)) return ALL_RECORD_TYPES;
+    const enabled: RecordType[] =
+      Array.isArray(channelConfig.enabled_record_types) && channelConfig.enabled_record_types.length > 0
+        ? channelConfig.enabled_record_types
+        : DEFAULT_ENABLED_TYPES;
+    return ALL_RECORD_TYPES.filter(r => enabled.includes(r.type));
   };
 
   /* ---- Handlers ---- */
@@ -403,16 +420,13 @@ export default function PublicComplaintForm() {
 
   if (!channelConfig) return null;
 
-  // Colores del canal — disponibles en ambos estados (activo e inactivo)
   const primaryColor = channelConfig.primary_color;
   const secondaryColor = channelConfig.secondary_color;
 
   /* ---- Success ---- */
   if (submitted) {
-    const current = RECORD_TYPES.find(r => r.type === recordType)!;
+    const current = ALL_RECORD_TYPES.find(r => r.type === recordType)!;
 
-    // Si el canal tiene confirmation_message propio se usa ese,
-    // si no se usa el mensaje por defecto según el tipo de registro
     const confirmMsg =
       isActiveChannel(channelConfig) && channelConfig.confirmation_message
         ? channelConfig.confirmation_message
@@ -486,7 +500,8 @@ export default function PublicComplaintForm() {
   const activeCategories = getActiveCategories();
   const complaintTypes = getComplaintTypesForCategory();
   const isComplaint = recordType === 'complaint';
-  const currentType = RECORD_TYPES.find(r => r.type === recordType)!;
+  const currentType = ALL_RECORD_TYPES.find(r => r.type === recordType)!;
+  const visibleRecordTypes = getEnabledRecordTypes();
   let step = 1;
 
   return (
@@ -547,45 +562,50 @@ export default function PublicComplaintForm() {
         {isActiveChannel(channelConfig) && (
           <form onSubmit={handleSubmit} className="space-y-4">
 
-            {/* PASO 1 — Tipo */}
-            <Section step={step++} title="¿Qué deseas enviar?" primaryColor={primaryColor}>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {RECORD_TYPES.filter(r => 
-  (channelConfig.enabled_record_types ?? ['complaint', 'grievance', 'suggestion']).includes(r.type)
-).map(({ type, label, sublabel, description, icon: Icon }) => {                  const active = recordType === type;
-                  return (
-                    <button
-                      key={type}
-                      type="button"
-                      onClick={() => handleRecordTypeChange(type)}
-                      disabled={submitting}
-                      className={`relative text-left p-5 border-2 transition-all ${
-                        active ? 'border-gray-900' : 'border-gray-200 hover:border-gray-400'
-                      } ${submitting ? 'cursor-not-allowed opacity-50' : ''}`}
-                    >
-                      {active && (
-                        <div
-                          className="absolute top-0 left-0 right-0 h-0.5"
-                          style={{ backgroundColor: primaryColor }}
-                        />
-                      )}
-                      <Icon
-                        className="w-5 h-5 mb-3 transition-colors"
-                        style={{ color: active ? primaryColor : '#9ca3af' }}
-                      />
-                      <p className="text-sm font-bold text-gray-900">{label}</p>
-                      <p
-                        className="text-xs font-semibold mt-0.5"
-                        style={{ color: active ? primaryColor : '#9ca3af' }}
+            {/* PASO 1 — Tipo de registro
+                Solo se muestra si hay más de un tipo habilitado.
+                Si hay exactamente 1, ya está preseleccionado y no hay nada que elegir. */}
+            {visibleRecordTypes.length > 1 && (
+              <Section step={step++} title="¿Qué deseas enviar?" primaryColor={primaryColor}>
+                <div className={`grid gap-3 ${
+                  visibleRecordTypes.length === 2 ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 sm:grid-cols-3'
+                }`}>
+                  {visibleRecordTypes.map(({ type, label, sublabel, description, icon: Icon }) => {
+                    const active = recordType === type;
+                    return (
+                      <button
+                        key={type}
+                        type="button"
+                        onClick={() => handleRecordTypeChange(type)}
+                        disabled={submitting}
+                        className={`relative text-left p-5 border-2 transition-all ${
+                          active ? 'border-gray-900' : 'border-gray-200 hover:border-gray-400'
+                        } ${submitting ? 'cursor-not-allowed opacity-50' : ''}`}
                       >
-                        {sublabel}
-                      </p>
-                      <p className="text-xs text-gray-500 mt-2 leading-relaxed">{description}</p>
-                    </button>
-                  );
-                })}
-              </div>
-            </Section>
+                        {active && (
+                          <div
+                            className="absolute top-0 left-0 right-0 h-0.5"
+                            style={{ backgroundColor: primaryColor }}
+                          />
+                        )}
+                        <Icon
+                          className="w-5 h-5 mb-3 transition-colors"
+                          style={{ color: active ? primaryColor : '#9ca3af' }}
+                        />
+                        <p className="text-sm font-bold text-gray-900">{label}</p>
+                        <p
+                          className="text-xs font-semibold mt-0.5"
+                          style={{ color: active ? primaryColor : '#9ca3af' }}
+                        >
+                          {sublabel}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-2 leading-relaxed">{description}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+              </Section>
+            )}
 
             {/* PASO 2 — Identidad */}
             <Section step={step++} title="Tu información" primaryColor={primaryColor}>
@@ -940,7 +960,6 @@ export default function PublicComplaintForm() {
 
             {/* Submit */}
             <div className="space-y-3 pt-1">
-              {/* Barra de progreso — visible solo durante el envío */}
               {submitting && (
                 <div className="bg-white border border-gray-200 px-5 py-4">
                   <div className="flex items-center justify-between mb-2">
@@ -993,46 +1012,33 @@ export default function PublicComplaintForm() {
         )}
 
         {/* Footer */}
-<div className="bg-white border border-gray-200 px-6 py-5 text-center">
-  <div className="flex items-center justify-center gap-2 mb-1">
-    <p className="text-xs font-semibold text-gray-600">
-      Canal Confidencial
-    </p>
-  </div>
-
-  <p className="text-xs text-gray-400 mb-2">
-    Administrado por {channelConfig.company_name} · Toda información tratada con confidencialidad
-  </p>
-
-  {/* Links legales */}
-  <div className="flex justify-center gap-4 mb-2">
-    <a
-      href="/privacidad"
-      className="text-xs text-gray-500 hover:text-gray-700 underline"
-    >
-      Política de privacidad
-    </a>
-    <a
-      href="/terminos"
-      className="text-xs text-gray-500 hover:text-gray-700 underline"
-    >
-      Términos y condiciones
-    </a>
-  </div>
-
-  {/* Powered by */}
-  <p className="text-xs text-gray-400">
-    Powered by{" "}
-    <a
-      href="https://talmatech.com"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="font-medium text-gray-500 hover:text-gray-700 underline"
-    >
-      TALMATECH
-    </a>
-  </p>
-</div>
+        <div className="bg-white border border-gray-200 px-6 py-5 text-center">
+          <div className="flex items-center justify-center gap-2 mb-1">
+            <p className="text-xs font-semibold text-gray-600">Canal Confidencial</p>
+          </div>
+          <p className="text-xs text-gray-400 mb-2">
+            Administrado por {channelConfig.company_name} · Toda información tratada con confidencialidad
+          </p>
+          <div className="flex justify-center gap-4 mb-2">
+            <a href="/privacidad" className="text-xs text-gray-500 hover:text-gray-700 underline">
+              Política de privacidad
+            </a>
+            <a href="/terminos" className="text-xs text-gray-500 hover:text-gray-700 underline">
+              Términos y condiciones
+            </a>
+          </div>
+          <p className="text-xs text-gray-400">
+            Powered by{' '}
+            <a
+              href="https://talmatech.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-gray-500 hover:text-gray-700 underline"
+            >
+              TALMATECH
+            </a>
+          </p>
+        </div>
 
       </div>
     </div>

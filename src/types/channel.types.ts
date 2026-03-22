@@ -1,4 +1,4 @@
-// channel.types.ts
+// src/types/channel.types.ts
 import type { RecordType } from './complaint.types';
 
 export interface ComplaintType {
@@ -26,12 +26,6 @@ export interface ComplaintCategories {
   other: ComplaintCategory;
 }
 
-export interface CustomField {
-  id: string;
-  label: string;
-  type: 'text' | 'textarea';
-}
-
 export interface PublicChannelConfigInactive {
   company_name: string;
   logo_url: string | null;
@@ -50,6 +44,7 @@ export interface PublicChannelConfigActive {
   welcome_message: string | null;
   confirmation_message: string | null;
   complaint_categories: ComplaintCategories;
+  enabled_record_types: RecordType[];
   allow_anonymous_complaints: boolean;
   allow_file_attachments: boolean;
   max_files: number;
@@ -58,7 +53,6 @@ export interface PublicChannelConfigActive {
   custom_fields: CustomField[];
   can_receive_complaints: true;
   subscription_message: null;
-  enabled_record_types: RecordType[];
 }
 
 export type PublicChannelConfig =
