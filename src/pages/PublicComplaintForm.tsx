@@ -201,7 +201,11 @@ export default function PublicComplaintForm() {
           }
         }
 
-        setChannelConfig({ ...config, allowed_file_types: allowedFileTypes });
+        // Después de cargar el config, donde seteas recordType default:
+      // En loadChannelConfig, dentro del bloque donde setChannelConfig:
+      const enabledTypes = config.enabled_record_types ?? ['complaint', 'grievance', 'suggestion'];
+      setRecordType(enabledTypes[0] as RecordType);
+      setChannelConfig({ ...config, allowed_file_types: allowedFileTypes });
       } else {
         setChannelConfig(null);
         setError('Canal no encontrado');
@@ -546,8 +550,9 @@ export default function PublicComplaintForm() {
             {/* PASO 1 — Tipo */}
             <Section step={step++} title="¿Qué deseas enviar?" primaryColor={primaryColor}>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {RECORD_TYPES.map(({ type, label, sublabel, description, icon: Icon }) => {
-                  const active = recordType === type;
+                {RECORD_TYPES.filter(r => 
+  (channelConfig.enabled_record_types ?? ['complaint', 'grievance', 'suggestion']).includes(r.type)
+).map(({ type, label, sublabel, description, icon: Icon }) => {                  const active = recordType === type;
                   return (
                     <button
                       key={type}
@@ -988,15 +993,46 @@ export default function PublicComplaintForm() {
         )}
 
         {/* Footer */}
-        <div className="bg-white border border-gray-200 px-6 py-5 text-center">
-          <div className="flex items-center justify-center gap-2 mb-1">
-            <Shield className="w-3.5 h-3.5" style={{ color: primaryColor }} />
-            <p className="text-xs font-semibold text-gray-600">Canal Confidencial</p>
-          </div>
-          <p className="text-xs text-gray-400">
-            Administrado por {channelConfig.company_name} · Toda información tratada con confidencialidad
-          </p>
-        </div>
+<div className="bg-white border border-gray-200 px-6 py-5 text-center">
+  <div className="flex items-center justify-center gap-2 mb-1">
+    <p className="text-xs font-semibold text-gray-600">
+      Canal Confidencial
+    </p>
+  </div>
+
+  <p className="text-xs text-gray-400 mb-2">
+    Administrado por {channelConfig.company_name} · Toda información tratada con confidencialidad
+  </p>
+
+  {/* Links legales */}
+  <div className="flex justify-center gap-4 mb-2">
+    <a
+      href="/privacidad"
+      className="text-xs text-gray-500 hover:text-gray-700 underline"
+    >
+      Política de privacidad
+    </a>
+    <a
+      href="/terminos"
+      className="text-xs text-gray-500 hover:text-gray-700 underline"
+    >
+      Términos y condiciones
+    </a>
+  </div>
+
+  {/* Powered by */}
+  <p className="text-xs text-gray-400">
+    Powered by{" "}
+    <a
+      href="https://talmatech.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="font-medium text-gray-500 hover:text-gray-700 underline"
+    >
+      TALMATECH
+    </a>
+  </p>
+</div>
 
       </div>
     </div>

@@ -1,4 +1,5 @@
 // channel.types.ts
+import type { RecordType } from './complaint.types';
 
 export interface ComplaintType {
   value: string;
@@ -57,6 +58,7 @@ export interface PublicChannelConfigActive {
   custom_fields: CustomField[];
   can_receive_complaints: true;
   subscription_message: null;
+  enabled_record_types: RecordType[];
 }
 
 export type PublicChannelConfig =
