@@ -34,7 +34,6 @@ const ALL_RECORD_TYPES = [
   {
     type: 'complaint' as RecordType,
     label: 'Denuncia',
-    sublabel: 'Whistleblowing',
     description: 'Reporta un incidente, irregularidad o conducta indebida.',
     submitLabel: 'Enviar Denuncia',
     successTitle: 'Denuncia recibida',
@@ -45,7 +44,6 @@ const ALL_RECORD_TYPES = [
   {
     type: 'grievance' as RecordType,
     label: 'Queja',
-    sublabel: 'Inconformidad',
     description: 'Expresa una inconformidad sobre un servicio o trato recibido.',
     submitLabel: 'Enviar Queja',
     successTitle: 'Queja registrada',
@@ -56,7 +54,6 @@ const ALL_RECORD_TYPES = [
   {
     type: 'suggestion' as RecordType,
     label: 'Sugerencia',
-    sublabel: 'Mejora continua',
     description: 'Comparte ideas o propuestas para mejorar procesos.',
     submitLabel: 'Enviar Sugerencia',
     successTitle: 'Sugerencia recibida',
@@ -570,7 +567,7 @@ export default function PublicComplaintForm() {
                 <div className={`grid gap-3 ${
                   visibleRecordTypes.length === 2 ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 sm:grid-cols-3'
                 }`}>
-                  {visibleRecordTypes.map(({ type, label, sublabel, description, icon: Icon }) => {
+                  {visibleRecordTypes.map(({ type, label, description, icon: Icon }) => {
                     const active = recordType === type;
                     return (
                       <button
@@ -593,12 +590,6 @@ export default function PublicComplaintForm() {
                           style={{ color: active ? primaryColor : '#9ca3af' }}
                         />
                         <p className="text-sm font-bold text-gray-900">{label}</p>
-                        <p
-                          className="text-xs font-semibold mt-0.5"
-                          style={{ color: active ? primaryColor : '#9ca3af' }}
-                        >
-                          {sublabel}
-                        </p>
                         <p className="text-xs text-gray-500 mt-2 leading-relaxed">{description}</p>
                       </button>
                     );
