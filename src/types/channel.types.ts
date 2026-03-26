@@ -19,12 +19,17 @@ export interface ComplaintCategory {
   complaints: ComplaintType[];
 }
 
+// ✅ v4.5: Solo categorías de delitos (aplican únicamente a record_type = 'complaint')
 export interface ComplaintCategories {
-  crime: ComplaintCategory;
-  service_opinion: ComplaintCategory;
-  billing: ComplaintCategory;
-  other: ComplaintCategory;
+  harassment: ComplaintCategory;
+  discrimination: ComplaintCategory;
+  fraud_corruption: ComplaintCategory;
+  theft_damage: ComplaintCategory;
+  safety_violations: ComplaintCategory;
+  other_crime: ComplaintCategory;
 }
+
+export type ComplaintCategoryKey = keyof ComplaintCategories;
 
 export interface PublicChannelConfigInactive {
   company_name: string;
