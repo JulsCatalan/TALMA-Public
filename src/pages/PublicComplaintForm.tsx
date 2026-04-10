@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  Shield, AlertCircle, Loader2, CheckCircle2,
+  Megaphone, AlertCircle, Loader2, CheckCircle2,
   Upload, X, FileText, MessageSquare, Lightbulb
 } from 'lucide-react';
 import { channelApi } from '../api/channel.api';
@@ -396,7 +396,7 @@ export default function PublicComplaintForm() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6">
         <div className="max-w-sm w-full text-center">
           <div className="w-16 h-16 bg-gray-100 flex items-center justify-center mx-auto mb-6">
-            <Shield className="w-8 h-8 text-gray-300" />
+            <Megaphone className="w-8 h-8 text-gray-300" />
           </div>
           <h1 className="text-xl font-bold text-gray-900 mb-3">Canal no encontrado</h1>
           <p className="text-sm text-gray-500 leading-relaxed mb-8">
@@ -404,7 +404,7 @@ export default function PublicComplaintForm() {
             contacta a la empresa que te lo compartió.
           </p>
           <div className="pt-6 border-t border-gray-200 flex items-center justify-center gap-2 text-xs text-gray-400">
-            <Shield className="w-3.5 h-3.5" />
+            <Megaphone className="w-3.5 h-3.5" />
             <span>
               Canal de denuncia por{' '}
               <span className="font-semibold text-gray-600">TALMA TECH</span>
@@ -481,7 +481,7 @@ export default function PublicComplaintForm() {
           </div>
 
           <div className="mt-5 text-center flex items-center justify-center gap-2 text-xs text-gray-400">
-            <Shield className="w-3.5 h-3.5" />
+            <Megaphone className="w-3.5 h-3.5" />
             <span>
               Canal administrado por{' '}
               <span className="font-semibold text-gray-500">{channelConfig.company_name}</span>
@@ -517,14 +517,14 @@ export default function PublicComplaintForm() {
                 <img
                   src={channelConfig.logo_url}
                   alt={channelConfig.company_name}
-                  className="h-11 w-auto object-contain shrink-0"
+                  className="h-20 w-auto object-contain shrink-0"
                 />
               ) : (
                 <div
-                  className="w-11 h-11 flex items-center justify-center shrink-0"
+                  className="w-16 h-16 flex items-center justify-center shrink-0"
                   style={{ backgroundColor: primaryColor }}
                 >
-                  <Shield className="w-5 h-5 text-white" />
+                  <Megaphone className="w-6 h-6 text-white" />
                 </div>
               )}
               <div>
