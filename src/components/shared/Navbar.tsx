@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu } from "lucide-react";
+import { Menu, ChevronRight } from "lucide-react";
 
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -15,11 +15,9 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  // If we just navigated to /#section, scroll to it once the page renders
   useEffect(() => {
     if (location.hash) {
       const id = location.hash.replace("#", "");
-      // Small timeout to let the page render first
       const timer = setTimeout(() => {
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -31,11 +29,9 @@ const Navbar: React.FC = () => {
   const handleNavClick = (id: string) => {
     setMobileOpen(false);
     if (location.pathname === "/") {
-      // Already on homepage — just scroll
       const el = document.getElementById(id);
       if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     } else {
-      // Navigate to homepage with hash; useEffect above will scroll
       navigate(`/#${id}`);
     }
   };
@@ -86,7 +82,7 @@ const Navbar: React.FC = () => {
                 key={id}
                 type="button"
                 onClick={() => handleNavClick(id)}
-                className="text-sm text-gray-600 hover:text-brand-blue transition-colors"
+                className="text-sm text-gray-600 hover:text-brand-blue transition-colors cursor-pointer"
               >
                 {label}
               </button>
@@ -112,7 +108,7 @@ const Navbar: React.FC = () => {
           {/* Mobile button */}
           <button
             type="button"
-            className="md:hidden p-2"
+            className="md:hidden p-2 cursor-pointer"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             <Menu className="w-5 h-5 text-gray-700" />
@@ -127,38 +123,45 @@ const Navbar: React.FC = () => {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
           >
-            <div className="px-6 py-4 space-y-3">
+            {/* Label de sección */}
+            <div className="px-6 pt-5 pb-1">
+              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">
+                Navegar
+              </p>
+            </div>
+
+            {/* Links con flecha */}
+            <div className="px-2">
               {navLinks.map(({ id, label }) => (
                 <button
                   key={id}
                   type="button"
                   onClick={() => handleNavClick(id)}
-                  className="block w-full text-left text-sm text-gray-700 py-2"
+                  className="flex items-center justify-between w-full px-4 py-4 text-sm text-gray-800 border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer"
                 >
-                  {label}
+                  <span className="font-medium">{label}</span>
+                  <ChevronRight className="w-4 h-4 text-gray-300" />
                 </button>
               ))}
+            </div>
 
-              <div className="pt-2 border-t border-gray-100 space-y-2">
-                <a
-                  href="https://cliente.talmatech.com/iniciar-sesion"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-sm text-gray-700 py-2"
-                >
-                  Iniciar sesión
-                </a>
-                <a
-                  href="https://cliente.talmatech.com/registro"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-center py-2.5 bg-brand-blue text-white text-sm font-medium"
-                >
-                  Comenzar ahora
-                </a>
-              </div>
+            {/* CTAs — grandes para dedo */}
+            <div className="px-6 pt-4 pb-6 space-y-3">
+              <a
+                href="https://cliente.talmatech.com/iniciar-sesion"
+                className="flex items-center justify-center w-full py-4 border border-gray-200 text-sm font-medium text-gray-800 hover:border-brand-blue hover:text-brand-blue transition-all"
+              >
+                Iniciar sesión
+              </a>
+              <a
+                href="https://cliente.talmatech.com/registro"
+                className="flex items-center justify-center w-full py-4 bg-brand-blue text-white text-sm font-medium hover:bg-brand-blue/90 transition-all"
+              >
+                Comenzar ahora
+              </a>
             </div>
           </motion.div>
         )}

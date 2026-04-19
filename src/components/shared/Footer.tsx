@@ -1,18 +1,7 @@
 import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Footer: React.FC = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const handleSectionClick = (id: string) => {
-    if (location.pathname === "/") {
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      navigate(`/#${id}`);
-    }
-  };
 
   return (
     <footer className="bg-black text-gray-500 border-t border-gray-900">
@@ -39,31 +28,6 @@ const Footer: React.FC = () => {
               Plataforma de cumplimiento normativo para organizaciones que
               buscan gestionar riesgos de forma proactiva.
             </p>
-          </div>
-
-          {/* Producto */}
-          <div>
-            <div className="text-xs font-medium text-gray-300 uppercase tracking-wider mb-4">
-              Producto
-            </div>
-            <ul className="space-y-2.5">
-              {[
-                { label: "Canal de Denuncias", id: "soluciones" },
-                { label: "Capacitaciones", id: "soluciones" },
-                { label: "Auditorías", id: "soluciones" },
-                { label: "Precios", id: "precios" },
-              ].map((l) => (
-                <li key={l.label}>
-                  <button
-                    type="button"
-                    onClick={() => handleSectionClick(l.id)}
-                    className="text-xs hover:text-white transition-colors"
-                  >
-                    {l.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
           </div>
 
           {/* Nosotros */}

@@ -46,9 +46,10 @@ const sections = [
   { id: "propiedad", label: "9. Propiedad intelectual" },
   { id: "responsabilidad", label: "10. Limitación de responsabilidad" },
   { id: "notificaciones", label: "11. Notificaciones" },
-  { id: "legislacion", label: "12. Legislación" },
-  { id: "vigencia", label: "13. Vigencia" },
-  { id: "disposiciones", label: "14. Disposiciones finales" },
+  { id: "mantenimiento", label: "12. Mantenimiento de la plataforma" },
+  { id: "legislacion", label: "13. Legislación" },
+  { id: "vigencia", label: "14. Vigencia" },
+  { id: "disposiciones", label: "15. Disposiciones finales" },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -176,7 +177,7 @@ function ContentSection() {
                   <button
                     key={s.id}
                     onClick={() => smoothScrollTo(s.id)}
-                    className="block w-full text-left text-sm text-gray-500 hover:text-brand-blue py-1.5 transition-colors"
+                    className="block w-full text-left text-sm text-gray-500 hover:text-brand-blue py-1.5 transition-colors cursor-pointer"
                   >
                     {s.label}
                   </button>
@@ -256,7 +257,7 @@ function ContentSection() {
               <SectionHeading number="4" title="Precios, facturación y planes." />
               <SubHeading>Estructura de precios.</SubHeading>
               <Para>
-                Los precios varían según la modalidad, el plan seleccionado y el periodo de facturación. Los precios y las condiciones comerciales aplicables a cada plan se muestran en la oferta comercial vigente al momento de la contratación.
+                Los precios varían según la modalida, el plan seleccionado y el periodo de facturación. Los precios y las condiciones comerciales aplicables a cada plan se muestran en la oferta comercial vigente al momento de la contratación.
               </Para>
               <SubHeading>Opciones de facturación.</SubHeading>
               <Para>
@@ -285,6 +286,13 @@ function ContentSection() {
               <Para>En caso de que la insuficiencia del plan contratado genere interrupciones, pérdidas de datos o efectos operativos, Talma Tech no será responsable por daños directos o indirectos derivados exclusivamente de una selección inadecuada del plan por parte del Cliente. No obstante, Talma Tech colaborará razonablemente para mitigar el impacto y proponer soluciones técnicas o comerciales.</Para>
               <Para>Cuando el Cliente solicite una actualización a un plan inferior, será responsable de designar y confirmar los usuarios administradores y de eliminar o exportar los datos que excedan las capacidades del nuevo plan; Talma Tech podrá imponer las limitaciones técnicas necesarias hasta que el Cliente cumpla con dicha designación y ajuste.</Para>
               <Para>Si el volumen de uso extraordinario requiere medidas técnicas adicionales o costos operativos relevantes, Talma Tech podrá facturar cargos adicionales razonables y previamente comunicados al Cliente, hasta en tanto no se efectúe el correspondiente cambio de plan.</Para>
+              <SubHeading>Planes y cotización personalizada.</SubHeading>
+              <Para>
+                Los servicios de Talma Tech se ofrecen, en principio, conforme a los planes y tarifas publicados por la Plataforma o en la propuesta comercial correspondiente. No obstante, atendiendo a las características, tamaño, volumen de operación, número de usuarios, sucursales o necesidades particulares del Cliente, Talma Tech podrá, de común acuerdo con éste, convenir costos distintos a los previstos en los planes.
+              </Para>
+              <Para>
+                En estos casos, las partes podrán pactar una tarifa especial, descuentos o condiciones comerciales específicas, siempre que ello conste por escrito y no contravenga los presentes Términos y Condiciones. La existencia de una cotización personalizada no modifica por sí misma las prerrogativas, beneficios y limitaciones aplicables a cada plan, salvo acuerdo expreso en contrario.
+              </Para>
             </div>
 
             {/* 5 */}
@@ -311,6 +319,12 @@ function ContentSection() {
                 <AlphaItem letter="a">Talma Tech no se responsabiliza por errores originados por el cliente.</AlphaItem>
                 <AlphaItem letter="b">En caso de cobros indebidos o controversias derivadas de la ejecución de pagos por parte de Talma Tech, el Cliente deberá notificar a Talma Tech para que se investigue y procese la corrección o reembolso conforme a las políticas internas y a la normativa aplicable. Talma Tech se compromete a colaborar y, en su caso, gestionar ajustes o reembolsos razonables cuando correspondan y se compruebe el error.</AlphaItem>
               </div>
+              <Para>
+                Cuando el Cliente opte por la activación a través de pagos manuales, una vez confirmado el pago, TALMA TECH procederá a la creación de la cuenta del usuario y enviará las credenciales de acceso (usuario y contraseña) al correo electrónico proporcionado por el contratante.
+              </Para>
+              <Para>
+                El usuario será responsable de resguardar dicha información, siendo el único responsable del uso que se haga de su cuenta.
+              </Para>
               <SubHeading>Facturación y comprobantes.</SubHeading>
               <Para>
                 Talma Tech expedirá el comprobante correspondiente cuando el Cliente adquiera cualquier plan en la modalidad deseada. Para la emisión de su Comprobante Comprobante Fiscal Digital por Internet, el Cliente debe notificar por correo electrónico a{" "}
@@ -415,16 +429,33 @@ function ContentSection() {
             </div>
 
             {/* 12 */}
+            <div id="mantenimiento" className="scroll-mt-28">
+              <SectionHeading number="12" title="Mantenimiento de la plataforma." />
+              <Para>
+                Talma Tech podrá realizar, de manera periódica, trabajos de mantenimiento, actualización o mejora en la plataforma, con el fin de garantizar su correcto funcionamiento.
+              </Para>
+              <Para>
+                En caso de mantenimiento programado, Talma Tech notificará a los usuarios mediante correo electrónico con al menos veinticuatro 24 horas de anticipación, señalando el tiempo estimado durante el cual la plataforma no estará disponible.
+              </Para>
+              <Para>
+                Talma Tech no será responsable por la interrupción temporal del servicio derivada de dichas labores de mantenimiento.
+              </Para>
+              <Para>
+                Talma Tech se reserva el derecho de realizar mantenimientos de emergencia sin previo aviso cuando así sea necesario para preservar la seguridad, integridad o funcionamiento de la plataforma.
+              </Para>
+            </div>
+
+            {/* 13 */}
             <div id="legislacion" className="scroll-mt-28">
-              <SectionHeading number="12" title="Legislación aplicable y jurisdicción" />
+              <SectionHeading number="13" title="Legislación aplicable y jurisdicción" />
               <Para>
                 Estos Términos y Condiciones se regirán e interpretarán de conformidad con las leyes aplicables en los Estados Unidos Mexicanos. Para la solución de cualquier controversia derivada de la interpretación o ejecución de estos Términos y Condiciones y prestación del Servicio, las partes se someten a los Tribunales competentes de la Ciudad de México, renunciando expresamente a cualquier otra jurisdicción que pudiera corresponderles por razón de sus domicilios presentes o futuros.
               </Para>
             </div>
 
-            {/* 13 */}
+            {/* 14 */}
             <div id="vigencia" className="scroll-mt-28">
-              <SectionHeading number="13" title="Vigencia y modificaciones" />
+              <SectionHeading number="14" title="Vigencia y modificaciones" />
               <SubHeading>Vigencia.</SubHeading>
               <Para>
                 Estos Términos y Condiciones entran en vigor desde la fecha de su publicación.
@@ -435,16 +466,16 @@ function ContentSection() {
               </Para>
             </div>
 
-            {/* 14 */}
+            {/* 15 */}
             <div id="disposiciones" className="scroll-mt-28">
-              <SectionHeading number="14" title="Disposiciones finales." />
+              <SectionHeading number="15" title="Disposiciones finales." />
               <SubHeading>Separabilidad.</SubHeading>
               <Para>
                 Si alguna disposición de estos Términos y Condiciones fuera afectada de nulidad absoluta, las demás disposiciones permanecerán vigentes.
               </Para>
               <SubHeading>Acuerdo completo.</SubHeading>
               <Para>
-                Estos Términos y la documentación vinculada constituyen el acuerdo íntegro entre las partes en relación con el Servicio.
+                Estos Términos y Condiciones y la documentación vinculada constituyen el acuerdo íntegro entre las partes en relación con el Servicio.
               </Para>
             </div>
 

@@ -641,6 +641,7 @@ export default function PublicComplaintForm() {
                       <option value="supplier">Proveedor</option>
                       <option value="customer">Cliente</option>
                       <option value="external">Externo</option>
+                      <option value="other">Otro</option> 
                     </select>
                   </Field>
 

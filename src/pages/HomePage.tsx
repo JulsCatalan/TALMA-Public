@@ -22,11 +22,15 @@ import Navbar from "../components/shared/Navbar";
 // ─── Animation Helpers ───────────────────────────────────────────────────────
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 32 },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] },
+    transition: {
+      duration: 0.7,
+      delay: i * 0.12,
+      ease: [0.16, 1, 0.3, 1],
+    },
   }),
 };
 
@@ -34,8 +38,15 @@ const fadeIn: Variants = {
   hidden: { opacity: 0 },
   visible: (i = 0) => ({
     opacity: 1,
-    transition: { duration: 0.5, delay: i * 0.08 },
+    transition: { duration: 0.6, delay: i * 0.1, ease: "easeOut" },
   }),
+};
+
+const stagger = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+  },
 };
 
 function useSection() {
@@ -52,6 +63,7 @@ function HeroSection() {
     <section className="pt-32 pb-20 px-6 lg:px-8 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="max-w-4xl mx-auto text-center">
+
           <motion.div
             variants={fadeIn}
             initial="hidden"
@@ -63,17 +75,18 @@ function HeroSection() {
 
           <motion.h1
             variants={fadeUp}
+            custom={1}
             initial="hidden"
             animate="visible"
             className="text-4xl lg:text-6xl font-semibold leading-tight mb-6"
           >
             <span className="text-black">Tu empresa necesita un</span>{" "}
-            <span className="text-brand-blue">canal de denuncias, quejas y sugerencias.</span>{" "}
+            <span className="text-brand-blue">canal de denuncias, quejas y sugerencias.</span>
           </motion.h1>
 
           <motion.p
             variants={fadeUp}
-            custom={1}
+            custom={2}
             initial="hidden"
             animate="visible"
             className="text-lg text-gray-500 mb-10 leading-relaxed max-w-2xl mx-auto font-light"
@@ -85,7 +98,7 @@ function HeroSection() {
 
           <motion.div
             variants={fadeUp}
-            custom={2}
+            custom={3}
             initial="hidden"
             animate="visible"
             className="flex flex-col sm:flex-row gap-3 justify-center mb-14"
@@ -107,68 +120,96 @@ function HeroSection() {
 
         </div>
 
-        {/* Dashboard Preview */}
+        {/* Dashboard Preview — mobile-first */}
         <motion.div
           variants={fadeUp}
           custom={4}
           initial="hidden"
           animate="visible"
-          className="max-w-5xl mx-auto mt-32"
+          className="max-w-lg lg:max-w-3xl mx-auto mt-24"
         >
-          <p className="text-center text-sm text-gray-400 mb-5 font-light tracking-wide uppercase">
+          <p className="text-center text-xs text-gray-400 mb-5 font-light tracking-widest uppercase">
             Dashboard en tiempo real con seguimiento continuo y trazable
           </p>
+
           <div className="relative">
-            <div className="absolute inset-0 bg-brand-bone/40 transform -rotate-1" />
-            <div className="relative bg-white border border-gray-150 shadow-2xl p-6 lg:p-8">
-              <div className="grid grid-cols-3 gap-4 mb-4">
-                <div className="col-span-2 space-y-3">
-                  <div className="flex items-center justify-between p-4 bg-brand-blue text-white">
-                    <div className="flex items-center gap-3">
-                      <FileText className="w-5 h-5" />
-                      <div>
-                        <div className="text-xs opacity-70">DENUNCIA</div>
-                        <div className="font-semibold text-base">DEN-2025-00124</div>
-                      </div>
-                    </div>
-                    <div className="px-3 py-1 bg-white/20 text-xs font-medium">
-                      EN INVESTIGACIÓN
-                    </div>
+            <div className="absolute inset-0 bg-brand-bone/50 transform rotate-1 translate-y-1" />
+            <div className="relative bg-white border border-gray-200 shadow-xl overflow-hidden">
+
+              {/* Header — flex wrap para que el badge baje en móvil si no cabe */}
+              <div className="bg-brand-blue px-4 py-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-7 h-7 bg-white/10 flex items-center justify-center shrink-0">
+                    <FileText className="w-3.5 h-3.5 text-white" />
                   </div>
-                  <div className="space-y-2.5 p-4 border border-gray-100">
-                    <div className="h-2.5 bg-black w-2/3" />
-                    <div className="h-2 bg-gray-200 w-full" />
-                    <div className="h-2 bg-gray-200 w-5/6" />
-                    <div className="h-2 bg-gray-200 w-4/5" />
+                  <div className="min-w-0">
+                    <div className="text-[10px] text-white/60 font-medium uppercase tracking-wider leading-none mb-0.5">
+                      Denuncia
+                    </div>
+                    <div className="text-white font-semibold text-sm whitespace-nowrap">
+                      DEN-2025-00124
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-4">
-                  <div className="p-5 bg-brand-blue text-white">
-                    <div className="text-3xl font-semibold mb-0.5">48</div>
-                    <div className="text-xs opacity-80">Total registros</div>
-                  </div>
-                  <div className="p-5 border border-gray-100">
-                    <div className="text-3xl font-semibold text-black mb-0.5">96%</div>
-                    <div className="text-xs text-gray-500">Tasa resolución</div>
-                  </div>
+                <div className="ml-auto shrink-0 px-2.5 py-1 bg-white/15 text-white text-[10px] font-medium tracking-wide whitespace-nowrap">
+                  EN INVESTIGACIÓN
                 </div>
               </div>
-              <div className="grid grid-cols-4 gap-3">
-                {[
-                  { n: 12, label: "Nuevas" },
-                  { n: 24, label: "En proceso" },
-                  { n: 10, label: "Completadas" },
-                  { n: 2, label: "Archivadas" },
-                ].map(({ n, label }) => (
-                  <div key={label} className="p-3.5 bg-gray-50 border border-gray-100">
-                    <div className="text-xl font-semibold text-black">{n}</div>
-                    <div className="text-xs text-gray-500 mt-0.5">{label}</div>
+
+              <div className="p-4 space-y-3">
+
+                {/* Stats 2 cols — siempre 2, nunca se rompe */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-gray-50 p-3">
+                    <div className="text-2xl font-semibold text-brand-blue leading-none mb-1">48</div>
+                    <div className="text-xs text-gray-400">Total registros</div>
                   </div>
-                ))}
+                  <div className="bg-gray-50 p-3">
+                    <div className="text-2xl font-semibold text-black leading-none mb-1">96%</div>
+                    <div className="text-xs text-gray-400">Tasa resolución</div>
+                  </div>
+                </div>
+
+                {/* Barras de estado */}
+                <div className="bg-gray-50 p-3 space-y-2.5">
+                  {[
+                    { label: "Nuevas", value: 12, pct: 50 },
+                    { label: "En proceso", value: 24, pct: 100 },
+                    { label: "Completadas", value: 10, pct: 42 },
+                    { label: "Archivadas", value: 2, pct: 8 },
+                  ].map(({ label, value, pct }) => (
+                    <div key={label} className="flex items-center gap-2">
+                      <span className="text-xs text-gray-400 w-22 shrink-0">{label}</span>
+                      <div className="flex-1 h-1.5 bg-gray-200 min-w-0">
+                        <div className="h-full bg-brand-blue" style={{ width: `${pct}%` }} />
+                      </div>
+                      <span className="text-xs font-medium text-gray-700 w-5 text-right shrink-0">
+                        {value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Mini grid 2x2 — nunca 4 cols en mobile */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                  {[
+                    { n: 3, label: "Denuncias" },
+                    { n: 5, label: "Quejas" },
+                    { n: 4, label: "Sugerencias" },
+                    { n: 2, label: "Sin asignar" },
+                  ].map(({ n, label }) => (
+                    <div key={label} className="bg-gray-50 border border-gray-100 p-3 flex items-center gap-3">
+                      <div className="text-xl font-semibold text-black shrink-0">{n}</div>
+                      <div className="text-xs text-gray-400 leading-tight">{label}</div>
+                    </div>
+                  ))}
+                </div>
+
               </div>
             </div>
           </div>
         </motion.div>
+
       </div>
     </section>
   );
@@ -218,7 +259,12 @@ function TwoProductsSection() {
               Ideal si ya cuentas con área legal propia.
             </p>
 
-            <ul className="space-y-3 mb-8">
+            <motion.ul
+              variants={stagger}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className="space-y-3 mb-8"
+            >
               {[
                 "Canal unificado: denuncias, quejas y sugerencias",
                 "Categorías de riesgo dentro de cada denuncia",
@@ -228,16 +274,20 @@ function TwoProductsSection() {
                 "Exportación a PDF y CSV",
                 "Gestión por roles (dueño / administrador / usuario estándar)",
               ].map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm text-gray-600">
+                <motion.li
+                  key={item}
+                  variants={fadeUp}
+                  className="flex items-start gap-2.5 text-sm text-gray-600"
+                >
                   <Check className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
                   {item}
-                </li>
+                </motion.li>
               ))}
-            </ul>
+            </motion.ul>
 
             <a
               href="https://cliente.talmatech.com/registro"
-              className="inline-flex items-center justify-center w-full py-3 border border-gray-300 text-black text-sm font-medium hover:border-brand-blue hover:text-brand-blue transition-all"
+              className="inline-flex items-center justify-center w-full py-3 border border-gray-300 text-black text-sm font-medium hover:border-brand-blue hover:text-brand-blue transition-all cursor-pointer"
             >
               Ver planes sin asesoría
             </a>
@@ -265,7 +315,12 @@ function TwoProductsSection() {
               Reporte legal formal y plan de acción incluidos. Tu empresa nunca queda sin soporte jurídico.
             </p>
 
-            <ul className="space-y-3 mb-8">
+            <motion.ul
+              variants={stagger}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className="space-y-3 mb-8"
+            >
               {[
                 "Todo lo incluido en la opción 1",
                 "Análisis legal de cada denuncia por abogados",
@@ -273,16 +328,20 @@ function TwoProductsSection() {
                 "Plan de acción personalizado con recomendaciones",
                 "Orientación para tomar decisiones informadas",
               ].map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm text-gray-700">
+                <motion.li
+                  key={item}
+                  variants={fadeUp}
+                  className="flex items-start gap-2.5 text-sm text-gray-700"
+                >
                   <Check className="w-4 h-4 text-brand-blue shrink-0 mt-0.5" />
                   {item}
-                </li>
+                </motion.li>
               ))}
-            </ul>
+            </motion.ul>
 
             <a
               href="https://cliente.talmatech.com/registro"
-              className="inline-flex items-center justify-center w-full py-3 bg-brand-blue text-white text-sm font-medium hover:bg-brand-blue/90 transition-all shadow-md shadow-brand-blue/20 group"
+              className="inline-flex items-center justify-center w-full py-3 bg-brand-blue text-white text-sm font-medium hover:bg-brand-blue/90 transition-all shadow-md shadow-brand-blue/20 group cursor-pointer"
             >
               Comenzar con asesoría legal
               <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -430,32 +489,32 @@ function ValuePropsSection() {
 
   const props = [
     {
-      icon: <Shield className="w-6 h-6 text-brand-blue" />,
+      icon: <Shield className="w-5 h-5 text-brand-blue" />,
       title: "Confidencialidad garantizada",
       desc: "Denuncias completamente anónimas. La empresa nunca accede a datos identificatorios sin autorización.",
     },
     {
-      icon: <Eye className="w-6 h-6 text-brand-blue" />,
+      icon: <Eye className="w-5 h-5 text-brand-blue" />,
       title: "Trazabilidad total",
       desc: "Historial completo de acciones, comentarios y estados por cada registro.",
     },
     {
-      icon: <Scale className="w-6 h-6 text-brand-blue" />,
+      icon: <Scale className="w-5 h-5 text-brand-blue" />,
       title: "Respaldo legal",
       desc: "Abogados especializados elaboran reportes legales y planes de acción que protegen a tu empresa.",
     },
     {
-      icon: <Lock className="w-6 h-6 text-brand-blue" />,
+      icon: <Lock className="w-5 h-5 text-brand-blue" />,
       title: "URL personalizada",
-      desc: "Canal propio con acceso cifrado. ",
+      desc: "Canal propio con acceso cifrado.",
     },
     {
-      icon: <TrendingUp className="w-6 h-6 text-brand-blue" />,
+      icon: <TrendingUp className="w-5 h-5 text-brand-blue" />,
       title: "Métricas en tiempo real",
       desc: "Estados, tasas de resolución y tendencias. Exporta a PDF y CSV con un clic.",
     },
     {
-      icon: <Users className="w-6 h-6 text-brand-blue" />,
+      icon: <Users className="w-5 h-5 text-brand-blue" />,
       title: "Gestión por roles",
       desc: "Dueño, administrador y usuario estándar con permisos diferenciados.",
     },
@@ -480,12 +539,12 @@ function ValuePropsSection() {
             <motion.div
               key={p.title}
               variants={fadeUp}
-              custom={i * 0.5}
+              custom={i * 0.15}
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
-              className="p-6 border border-gray-100 hover:border-brand-blue/30 hover:shadow-sm transition-all group"
+              className="p-6 border border-gray-100 hover:border-brand-blue/30 hover:shadow-sm transition-all group cursor-default"
             >
-              <div className="w-10 h-10 bg-brand-blue/8 flex items-center justify-center mb-4 group-hover:bg-brand-blue/15 transition-colors">
+              <div className="w-9 h-9 bg-brand-blue/8 flex items-center justify-center mb-4 group-hover:bg-brand-blue/15 transition-colors">
                 {p.icon}
               </div>
               <h3 className="text-sm font-semibold text-black mb-2">{p.title}</h3>
@@ -497,7 +556,6 @@ function ValuePropsSection() {
     </section>
   );
 }
-
 
 
 // ─── Pricing ──────────────────────────────────────────────────────────────────
@@ -541,7 +599,7 @@ function PricingSection() {
           <div className="inline-flex items-center gap-3 border border-gray-200 p-1 bg-white">
             <button
               onClick={() => setBilling("monthly")}
-              className={`px-5 py-2 text-sm font-medium transition-all ${
+              className={`px-5 py-2 text-sm font-medium transition-all cursor-pointer ${
                 billing === "monthly" ? "bg-gray-900 text-white" : "text-gray-600 hover:text-black"
               }`}
             >
@@ -549,7 +607,7 @@ function PricingSection() {
             </button>
             <button
               onClick={() => setBilling("annual")}
-              className={`px-5 py-2 text-sm font-medium transition-all ${
+              className={`px-5 py-2 text-sm font-medium transition-all cursor-pointer ${
                 billing === "annual" ? "bg-brand-blue text-white" : "text-gray-600 hover:text-black"
               }`}
             >
@@ -562,6 +620,7 @@ function PricingSection() {
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+
           {/* Sin Asesoría */}
           <motion.div
             variants={fadeUp}
@@ -581,7 +640,10 @@ function PricingSection() {
 
             <div className="space-y-2.5 mb-6">
               {sinAsesoria.map((plan) => (
-                <div key={plan.name} className="flex items-center justify-between p-4 border border-gray-100 hover:border-gray-200 transition-colors">
+                <div
+                  key={plan.name}
+                  className="flex items-center justify-between p-4 border border-gray-100 hover:border-gray-200 transition-colors"
+                >
                   <div>
                     <div className="text-sm font-medium text-black">{plan.name}</div>
                     <div className="text-xs text-gray-400">{plan.admins}</div>
@@ -591,6 +653,7 @@ function PricingSection() {
                       key={`${plan.name}-${billing}`}
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
                       className="text-base font-semibold text-brand-blue"
                     >
                       Desde {billing === "monthly" ? fmt(plan.monthly) : fmt(plan.annual)}
@@ -604,7 +667,11 @@ function PricingSection() {
             </div>
 
             <div className="space-y-2 mb-6">
-              {["Canal de denuncias, quejas y sugerencias 24/7", "Dashboard de gestión", "Exportación de reportes"].map((f) => (
+              {[
+                "Canal de denuncias, quejas y sugerencias 24/7",
+                "Dashboard de gestión",
+                "Exportación de reportes",
+              ].map((f) => (
                 <div key={f} className="flex items-center gap-2 text-sm text-gray-600">
                   <Check className="w-3.5 h-3.5 text-gray-400" />
                   {f}
@@ -614,7 +681,7 @@ function PricingSection() {
 
             <a
               href="https://cliente.talmatech.com/registro"
-              className="block w-full text-center py-3 bg-gray-100 text-black text-sm font-medium hover:bg-gray-200 transition-all"
+              className="block w-full text-center py-3 bg-gray-100 text-black text-sm font-medium hover:bg-gray-200 transition-all cursor-pointer"
             >
               Ver detalles
             </a>
@@ -656,6 +723,7 @@ function PricingSection() {
                       key={`${plan.name}-${billing}`}
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
                       className="text-base font-semibold text-brand-blue"
                     >
                       Desde {billing === "monthly" ? fmt(plan.monthly) : fmt(plan.annual)}
@@ -663,7 +731,9 @@ function PricingSection() {
                     <div className="text-xs text-gray-400 flex items-center gap-1.5">
                       MXN/{billing === "monthly" ? "mes" : "año"}
                       {billing === "annual" && (
-                        <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded text-[10px] font-medium">−15%</span>
+                        <span className="px-1.5 py-0.5 bg-green-100 text-green-700 text-[10px] font-medium">
+                          −15%
+                        </span>
                       )}
                     </div>
                   </div>
@@ -686,7 +756,7 @@ function PricingSection() {
 
             <a
               href="https://cliente.talmatech.com/registro"
-              className="block w-full text-center py-3 bg-brand-blue text-white text-sm font-medium hover:bg-brand-blue/90 transition-all shadow-md shadow-brand-blue/20"
+              className="block w-full text-center py-3 bg-brand-blue text-white text-sm font-medium hover:bg-brand-blue/90 transition-all shadow-md shadow-brand-blue/20 cursor-pointer"
             >
               Comenzar ahora
             </a>
@@ -750,18 +820,18 @@ function FAQSection() {
             <motion.div
               key={i}
               variants={fadeUp}
-              custom={i * 0.3}
+              custom={i * 0.1}
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
               className="border border-gray-200"
             >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                className="w-full flex items-center justify-between p-5 text-left"
+                className="w-full flex items-center justify-between p-5 text-left cursor-pointer"
               >
-                <span className="text-sm font-medium text-black">{faq.q}</span>
+                <span className="text-sm font-medium text-black pr-4">{faq.q}</span>
                 <ChevronDown
-                  className={`w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200 ${
+                  className={`w-4 h-4 text-gray-400 shrink-0 transition-transform duration-300 ${
                     open === i ? "rotate-180" : ""
                   }`}
                 />
@@ -772,7 +842,7 @@ function FAQSection() {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.25 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     className="overflow-hidden"
                   >
                     <p className="px-5 pb-5 text-sm text-gray-500 font-light leading-relaxed">
@@ -828,14 +898,14 @@ function CTASection() {
         >
           <a
             href="https://cliente.talmatech.com/registro"
-            className="inline-flex items-center justify-center px-8 py-4 bg-white text-brand-blue text-sm font-semibold hover:bg-gray-50 transition-all group shadow-xl"
+            className="inline-flex items-center justify-center px-8 py-4 bg-white text-brand-blue text-sm font-semibold hover:bg-gray-50 transition-all group shadow-xl cursor-pointer"
           >
             Crear cuenta ahora
             <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
           <a
             href="#precios"
-            className="inline-flex items-center justify-center px-8 py-4 border border-white/30 text-white text-sm font-medium hover:border-white/60 transition-all"
+            className="inline-flex items-center justify-center px-8 py-4 border border-white/30 text-white text-sm font-medium hover:border-white/60 transition-all cursor-pointer"
           >
             Ver precios
           </a>
@@ -846,7 +916,6 @@ function CTASection() {
 }
 
 
-
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
@@ -855,7 +924,6 @@ export default function HomePage() {
       <Navbar />
       <main>
         <HeroSection />
-
         <TwoProductsSection />
         <HowItWorksSection />
         <ValuePropsSection />
