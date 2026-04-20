@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Megaphone, AlertCircle, Loader2, CheckCircle2,
@@ -66,6 +66,18 @@ const ALL_RECORD_TYPES = [
 const DEFAULT_ENABLED_TYPES: RecordType[] = ['complaint', 'grievance', 'suggestion'];
 
 /* -------------------------------------------------- */
+/* Límites de caracteres */
+/* -------------------------------------------------- */
+
+const CHAR_LIMITS = {
+  title: 120,
+  complainant_name: 100,
+  company_relationship: 200,
+  incident_location: 150,
+  involved_area: 150,
+};
+
+/* -------------------------------------------------- */
 /* UI helpers */
 /* -------------------------------------------------- */
 
@@ -76,21 +88,43 @@ const inputCls = (disabled: boolean) =>
       : 'bg-white border-gray-300 text-gray-900 hover:border-gray-500 focus:border-gray-900'
   }`;
 
+function CharCount({ value, max }: { value: string; max: number }) {
+  const remaining = max - value.length;
+  const isNear = remaining <= 20;
+  const isOver = remaining < 0;
+  return (
+    <span className={`text-xs tabular-nums ${
+      isOver ? 'text-red-500 font-semibold' : isNear ? 'text-amber-500' : 'text-gray-300'
+    }`}>
+      {value.length}/{max}
+    </span>
+  );
+}
+
 function Field({
   label,
   required,
+  charLimit,
+  charValue,
   children
 }: {
   label: string;
   required?: boolean;
+  charLimit?: number;
+  charValue?: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-semibold text-gray-800">
-        {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
-      </label>
+      <div className="flex items-center justify-between">
+        <label className="block text-sm font-semibold text-gray-800">
+          {label}
+          {required && <span className="text-red-500 ml-1">*</span>}
+        </label>
+        {charLimit !== undefined && charValue !== undefined && (
+          <CharCount value={charValue} max={charLimit} />
+        )}
+      </div>
       {children}
     </div>
   );
@@ -142,6 +176,13 @@ export default function PublicComplaintForm() {
   const [trackingCode, setTrackingCode] = useState('');
   const [folio, setFolio] = useState('');
   const [recordType, setRecordType] = useState<RecordType>('complaint');
+
+  // ✅ Fix: ref para capturar el recordType exacto al momento del submit
+  // evita que un re-render cambie el tipo antes de mostrar la pantalla de éxito
+  const submittedRecordTypeRef = useRef<RecordType>('complaint');
+  const submittedRecordTypeConfig = ALL_RECORD_TYPES.find(
+    r => r.type === submittedRecordTypeRef.current
+  )!;
 
   const [formData, setFormData] = useState({
     complainant_type: '',
@@ -200,13 +241,13 @@ export default function PublicComplaintForm() {
           }
         }
 
-        // Setear el primer tipo habilitado como default
         const enabledTypes: RecordType[] =
           Array.isArray(config.enabled_record_types) && config.enabled_record_types.length > 0
             ? config.enabled_record_types
             : DEFAULT_ENABLED_TYPES;
 
         setRecordType(enabledTypes[0]);
+        submittedRecordTypeRef.current = enabledTypes[0];
         setChannelConfig({ ...config, allowed_file_types: allowedFileTypes });
       } else {
         setChannelConfig(null);
@@ -224,7 +265,6 @@ export default function PublicComplaintForm() {
 
   /* ---- Helpers ---- */
 
-  // Lista de tipos visibles según configuración del canal
   const getEnabledRecordTypes = () => {
     if (!isActiveChannel(channelConfig)) return ALL_RECORD_TYPES;
     const enabled: RecordType[] =
@@ -238,6 +278,7 @@ export default function PublicComplaintForm() {
 
   const handleRecordTypeChange = (type: RecordType) => {
     setRecordType(type);
+    submittedRecordTypeRef.current = type;
     if (type !== 'complaint') {
       setFormData(prev => ({
         ...prev,
@@ -253,9 +294,12 @@ export default function PublicComplaintForm() {
     const { name, value, type } = e.target;
     if (type === 'checkbox') {
       setFormData(prev => ({ ...prev, [name]: (e.target as HTMLInputElement).checked }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      return;
     }
+    // Aplicar límite de caracteres si aplica
+    const limit = CHAR_LIMITS[name as keyof typeof CHAR_LIMITS];
+    if (limit && value.length > limit) return;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -314,6 +358,9 @@ export default function PublicComplaintForm() {
     try {
       setSubmitting(true);
       setUploadProgress(0);
+
+      // ✅ Fix: capturar el tipo exacto antes del submit
+      submittedRecordTypeRef.current = recordType;
 
       const base = {
         record_type: recordType,
@@ -422,7 +469,8 @@ export default function PublicComplaintForm() {
 
   /* ---- Success ---- */
   if (submitted) {
-    const current = ALL_RECORD_TYPES.find(r => r.type === recordType)!;
+    // ✅ Fix: usar el ref en lugar del estado para garantizar el tipo correcto
+    const current = submittedRecordTypeConfig;
 
     const confirmMsg =
       isActiveChannel(channelConfig) && channelConfig.confirmation_message
@@ -559,9 +607,7 @@ export default function PublicComplaintForm() {
         {isActiveChannel(channelConfig) && (
           <form onSubmit={handleSubmit} className="space-y-4">
 
-            {/* PASO 1 — Tipo de registro
-                Solo se muestra si hay más de un tipo habilitado.
-                Si hay exactamente 1, ya está preseleccionado y no hay nada que elegir. */}
+            {/* PASO 1 — Tipo de registro */}
             {visibleRecordTypes.length > 1 && (
               <Section step={step++} title="¿Qué deseas enviar?" primaryColor={primaryColor}>
                 <div className={`grid gap-3 ${
@@ -641,12 +687,17 @@ export default function PublicComplaintForm() {
                       <option value="supplier">Proveedor</option>
                       <option value="customer">Cliente</option>
                       <option value="external">Externo</option>
-                      <option value="other">Otro</option> 
+                      <option value="other">Otro</option>
                     </select>
                   </Field>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <Field label="Nombre completo" required>
+                    <Field
+                      label="Nombre completo"
+                      required
+                      charLimit={CHAR_LIMITS.complainant_name}
+                      charValue={formData.complainant_name}
+                    >
                       <input
                         type="text"
                         name="complainant_name"
@@ -681,7 +732,11 @@ export default function PublicComplaintForm() {
                     />
                   </Field>
 
-                  <Field label="Relación con la empresa">
+                  <Field
+                    label="Relación con la empresa"
+                    charLimit={CHAR_LIMITS.company_relationship}
+                    charValue={formData.company_relationship}
+                  >
                     <input
                       type="text"
                       name="company_relationship"
@@ -741,7 +796,12 @@ export default function PublicComplaintForm() {
                   </>
                 )}
 
-                <Field label="Título" required>
+                <Field
+                  label="Título"
+                  required
+                  charLimit={CHAR_LIMITS.title}
+                  charValue={formData.title}
+                >
                   <input
                     type="text"
                     name="title"
@@ -786,7 +846,11 @@ export default function PublicComplaintForm() {
                           className={inputCls(submitting)}
                         />
                       </Field>
-                      <Field label="Lugar del incidente">
+                      <Field
+                        label="Lugar del incidente"
+                        charLimit={CHAR_LIMITS.incident_location}
+                        charValue={formData.incident_location}
+                      >
                         <input
                           type="text"
                           name="incident_location"
@@ -799,7 +863,11 @@ export default function PublicComplaintForm() {
                       </Field>
                     </div>
 
-                    <Field label="Área o departamento involucrado">
+                    <Field
+                      label="Área o departamento involucrado"
+                      charLimit={CHAR_LIMITS.involved_area}
+                      charValue={formData.involved_area}
+                    >
                       <input
                         type="text"
                         name="involved_area"
